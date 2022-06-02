@@ -1,0 +1,169 @@
+package com.example.sellingperfume.entity;
+
+
+import org.joda.time.DateTime;
+
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.annotation.Generated;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import java.util.Date;
+
+@Entity
+@Table(name = "user")
+public class UserEntity extends AbtractEntity {
+
+    @NotBlank
+    @Column(name = "Full_name", columnDefinition = "nvarchar(50)")
+    private String fullName;
+
+    @Email(message = "Email is not validate")
+    @Column(name = "Email", columnDefinition = "nvarchar(50)", unique = true)
+    private String email;
+
+    @NotBlank
+    @Column(name = "Username", columnDefinition = "nvarchar(50)", unique = true)
+    private String username;
+
+    @NotBlank
+    @Column(name = "Password", columnDefinition = "nvarchar(50)", unique = true)
+    private String password;
+
+    @Column(name = "Adress", columnDefinition = "nvarchar(50)", unique = true)
+    private String adress;
+
+    @Column(name = "Phone", columnDefinition = "nvarchar(50)", unique = true)
+    private String phone;
+
+    @Column(name = "Serect_key", columnDefinition = "nvarchar(50)", unique = true)
+    private String serectKey;
+
+    @Column(name = "Active_OTP", columnDefinition = "boolean default false")
+    private boolean active_otp;
+
+    @Column(name = "Type_acount", columnDefinition = "int")
+    private int typeAcount;
+
+    @Column(name = "Avatar", columnDefinition = "nvarchar(50)")
+    private String avatar;
+
+    @Column(name = "Status_acount", columnDefinition = "nvarchar(50)")
+    private String statusAcount;
+
+
+    @Column(name = "Acountable", columnDefinition = "nvarchar(6) default '000000'")
+    private String acountable;
+
+    @Column(name = "Birthday", columnDefinition = "nvarchar(50)")
+    private Date birthday;
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+
+    public String getAcountable_user() {
+        return acountable;
+    }
+
+    public void setAcountable_user(String acountable) {
+        this.acountable = acountable;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSerectKey() {
+        return serectKey;
+    }
+
+    public void setSerectKey(String serectKey) {
+        this.serectKey = serectKey;
+    }
+
+    public boolean isActiveOTP() {
+        return active_otp;
+    }
+
+    public void setActiveOTP(boolean activeOTP) {
+        this.active_otp = activeOTP;
+    }
+
+    public int getTypeAcount() {
+        return typeAcount;
+    }
+
+    public void setTypeAcount(int typeAcount) {
+        this.typeAcount = typeAcount;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getStatusAcount() {
+        return statusAcount;
+    }
+
+    public void setStatusAcount(String statusAcount) {
+        this.statusAcount = statusAcount;
+    }
+
+
+}
