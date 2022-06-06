@@ -1,27 +1,25 @@
 package com.example.sellingperfume.entity;
 
 
-import org.joda.time.DateTime;
+import org.springframework.web.multipart.MultipartFile;
 
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.annotation.Generated;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.io.File;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "user")
-public class UserEntity extends AbtractEntity {
+public class UserEntity extends AbtractEntity{
 
     @NotBlank
     @Column(name = "Full_name", columnDefinition = "nvarchar(50)")
     private String fullName;
 
     @Email(message = "Email is not validate")
-    @Column(name = "Email", columnDefinition = "nvarchar(50)", unique = true)
+    @Column(name = "Email", columnDefinition = "nvarchar(250)", unique = true)
     private String email;
 
     @NotBlank
@@ -41,7 +39,7 @@ public class UserEntity extends AbtractEntity {
     @Column(name = "Serect_key", columnDefinition = "nvarchar(50)", unique = true)
     private String serectKey;
 
-    @Column(name = "Active_OTP", columnDefinition = "boolean default false")
+    @Column(name = "Active_OTP", columnDefinition = "boolean default 0")
     private boolean active_otp;
 
     @Column(name = "Type_acount", columnDefinition = "int")
@@ -57,14 +55,14 @@ public class UserEntity extends AbtractEntity {
     @Column(name = "Acountable", columnDefinition = "nvarchar(6) default '000000'")
     private String acountable;
 
-    @Column(name = "Birthday", columnDefinition = "nvarchar(50)")
-    private Date birthday;
+    @Column(name = "Birthday", columnDefinition = "DATE")
+    private String birthday;
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -133,12 +131,12 @@ public class UserEntity extends AbtractEntity {
         this.serectKey = serectKey;
     }
 
-    public boolean isActiveOTP() {
+    public boolean getActive_otp() {
         return active_otp;
     }
 
-    public void setActiveOTP(boolean activeOTP) {
-        this.active_otp = activeOTP;
+    public void setActive_otp(boolean active_otp) {
+        this.active_otp = active_otp;
     }
 
     public int getTypeAcount() {

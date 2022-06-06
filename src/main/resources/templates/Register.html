@@ -97,7 +97,7 @@
                         <div class="name">Avatar</div>
                         <div class="value">
                             <div class="input-group">
-                                <input class="input--style-5" type="file" name="avatar" id="avatar">
+                                <input class="input--style-5" type="file" name="avatars" id="avatars">
                             </div>
                         </div>
                     </div>
@@ -105,17 +105,17 @@
                         <label class="label label--block">Are you want use OTP?</label>
                         <div class="p-t-15">
                             <label class="radio-container m-r-55">Yes
-                                <input type="radio" checked="checked" name="OTP" id="OTP" value="1">
+                                <input type="radio" checked="checked" name="OTP" id="OTP" value="true">
                                 <span class="checkmark"></span>
                             </label>
                             <label class="radio-container">No
-                                <input type="radio" name="OTP" id="OTP" value="0">
+                                <input type="radio" name="OTP" id="OTP" value="false">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
                     </div>
                     <div>
-                        <input class="btn btn--radius-2 btn--red" type="submit" name="submitRegister" id="submitRegister" value="Register" />
+                        <input class="btn btn--radius-2 btn--red" type="button" name="submitRegister" id="submitRegister" value="Register" />
                     </div>
                 </form>
             </div>
@@ -124,7 +124,7 @@
 </div>
 
 <!-- Jquery JS-->
-<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
 <!-- Vendor JS-->
 <script src="/vendor/select2/select2.min.js"></script>
 <script src="/vendor/datepicker/moment.min.js"></script>
@@ -136,34 +136,57 @@
     $(document).ready(function(){
         $('#submitRegister').click(function (event) {
             event.preventDefault();
-            var form = $('#registerForm')[1];
-            var dataForm = new FormData(form);
+            var form = $("#registerForm")[0]
+            var fdData = new FormData(form);
+            var stAvatar= $("#avatars")[0].files[0];
 
-            var dataInRegisterForm = {
-                "Name": $("#name").val(),
-                "Email": $('#email').val(),
-                "Password": $('#password').val(),
-                "Username": $('#username').val(),
-                "Phone": $('#phone').val(),
-                "Adress": $('#adress').val(),
-                "Birthday": $('#birthday').val(),
-                "Avatar": $('#avatar').val(),
-                "OTP": $('#OTP').val()
-            };
-            console.log(dataInRegisterForm);
+            fdData.append("avatars",$("#avatars")[0].files[0]);
+            fdData.append("avatar",stAvatar.name);
+            fdData.append("fullName", $('#fullName').val());
+            fdData.append("email", $('#email').val());
+            fdData.append("password", $('#password').val());
+            fdData.append("username", $('#username').val());
+            fdData.append("phone", $('#phone').val());
+            fdData.append("adress", $('#adress').val());
+            fdData.append("Birthday", $('#birthday').val());
+            fdData.append("active_otp", $('#OTP').val());
+
+            console.log(typeof $('#birthday').val())
+            console.log(typeof String(stAvatar.name))
             $.ajax({
                 type: "POST",
                 url: '/createRegister',
                 dataType : 'json',
-                data: JSON.stringify(dataInRegisterForm),
-                contentType : 'application/json',
+                data: fdData,
+                contentType : false,
                 processData: false,  // Important!
-                cache: false,
                 success: function (data) {
                     alert("thanhcong");
                 },error: function (){
                     alert("thatbai");
                 }
+            });
+        })
+
+        $('#submitRegister1').click(function (event){
+            var form = $("#registerForm")[0]
+            var fdData = new FormData(form);
+
+            fdData.append("avatars",$("#avatars")[0].files[0])
+            fdData.append("avatar",'')
+            fdData.append("fullName", $('#fullName').val());
+            fdData.append("email", $('#email').val());
+            fdData.append("password", $('#password').val());
+            fdData.append("username", $('#username').val());
+            fdData.append("phone", $('#phone').val());
+            fdData.append("adress", $('#adress').val());
+            //fdData.append("birthday", $('#birthday').val());
+
+            fdData.append("active_otp", false);
+
+            let response =  fetch('/upload', {
+                method: "POST",
+                body: fdData
             });
         })
     })
