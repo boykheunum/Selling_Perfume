@@ -16,14 +16,14 @@ public abstract class AbtractEntity {
     @Column(name = "Create_at", columnDefinition = "DATETIME")
     private LocalDateTime createAt;
 
-    @Column(name = "create_by", columnDefinition = "int")
-    private Long createBy;
+    @Column(name = "create_by", columnDefinition = "nvarchar(50)")
+    private String createBy;
 
     @Column(name = "Update_at", columnDefinition = "DATETIME")
     private LocalDateTime updateAt;
 
-    @Column(name = "Update_by", columnDefinition = "Long")
-    private Long updateBy;
+    @Column(name = "Update_by", columnDefinition = "nvarchar(50)")
+    private String updateBy;
 
     public Long getId() {
         return id;
@@ -37,11 +37,11 @@ public abstract class AbtractEntity {
         this.createAt = createAt;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -53,11 +53,11 @@ public abstract class AbtractEntity {
         this.updateAt = updateAt;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 }

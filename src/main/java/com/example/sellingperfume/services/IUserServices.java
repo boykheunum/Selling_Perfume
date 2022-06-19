@@ -2,6 +2,13 @@ package com.example.sellingperfume.services;
 
 import com.example.sellingperfume.entity.UserEntity;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 public interface IUserServices {
@@ -14,4 +21,8 @@ public interface IUserServices {
     public byte[] createQRCode(String serectKey, String Username);
 
     public byte[] confiRQCode(String data, int width, int height);
+
+    public UserEntity FindUserByUsername(String usName);
+
+    public boolean checkLogin(UserEntity userEntity, String password) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeySpecException, InvalidKeyException;
 }

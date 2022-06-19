@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
@@ -19,15 +20,17 @@ public class UserEntity extends AbtractEntity{
     private String fullName;
 
     @Email(message = "Email is not validate")
+    @NotNull
     @Column(name = "Email", columnDefinition = "nvarchar(250)", unique = true)
     private String email;
 
     @NotBlank
+    @NotNull
     @Column(name = "Username", columnDefinition = "nvarchar(50)", unique = true)
     private String username;
 
     @NotBlank
-    @Column(name = "Password", columnDefinition = "nvarchar(50)", unique = true)
+    @Column(name = "Password", columnDefinition = "nvarchar(255)")
     private String password;
 
     @Column(name = "Adress", columnDefinition = "nvarchar(50)", unique = true)
@@ -42,7 +45,7 @@ public class UserEntity extends AbtractEntity{
     @Column(name = "Active_OTP", columnDefinition = "boolean default 0")
     private boolean active_otp;
 
-    @Column(name = "Type_acount", columnDefinition = "int")
+    @Column(name = "Type_acount", columnDefinition = "int default 1")
     private int typeAcount;
 
     @Column(name = "Avatar", columnDefinition = "nvarchar(50)")

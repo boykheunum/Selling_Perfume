@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login V4</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util1.css">
+    <link rel="stylesheet" type="text/css" href="css/main1.css">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+            <h1 style="text-align: center">OTP</h1>
+            <form class="login100-form validate-form" id="otpForm" name="otpForm">
+                <div class="container height-100 d-flex justify-content-center align-items-center">
+                    <div class="position-relative">
+                        <div class="card p-2 text-center"><h6>Please enter the one time password</h6>
+
+                            <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                                <input class="m-2 text-center form-control rounded" type="text" id="first"
+                                       maxlength="1" onkeyup="nextInput(this,'second')"/>
+                                <input class="m-2 text-center form-control rounded" type="text" id="second"
+                                       maxlength="1" onkeyup="nextInput(this,'third')"/>
+                                <input class="m-2 text-center form-control rounded" type="text" id="third"
+                                       maxlength="1" onkeyup="nextInput(this,'fourth')"/>
+                                <input class="m-2 text-center form-control rounded" type="text" id="fourth"
+                                       maxlength="1" onkeyup="nextInput(this,'fifth')"/>
+                                <input class="m-2 text-center form-control rounded" type="text"
+                                       id="fifth" maxlength="1" onkeyup="nextInput(this,'sixth')"/>
+                                <input class="m-2 text-center form-control rounded" type="text" id="sixth" name="end"
+                                       maxlength="1"/>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-danger px-4 validate disabled" id="otpButton" name="otpButton">Validate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+<script>
+    function nextInput(field,autoMove){
+        console.log(field.maxLength);
+        if(field.value.length === field.maxLength){
+            document.getElementById(autoMove).focus();
+        }
+    }
+    $(document).ready(function () {
+        $("#sixth").keyup(function(){
+            if($("#first").val()!=null && $("#second").val()!=null && $("#third").val() != null && $("#fourth").val() != null && $("#fifth").val()!=null && $("#sixth").val()!=null ){
+                $("#otpButton").removeClass('disabled');
+            }
+        })
+        if($("#otpButton").is(':disabled')==false) {
+            {
+                $("#otpButton").click(function (event) {
+                    event.preventDefault();
+                    var fdData = {
+                        "first": $("#first").val(),
+                        "second": $("#second").val(),
+                        "third": $("#third").val(),
+                        "fourth": $("#fourth").val(),
+                        "fifth": $("#fifth").val(),
+                        "sixth": $("#sixth").val(),
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: 'chekOTP',
+                        data: JSON.stringify(fdData),
+                        contentType: "application/json",
+                        processData: false,  // Important!
+                        success: function (data) {
+                            alert("thanhcong");
+                        }, error: function () {
+                            alert("thatbai");
+                        }
+                    });
+                })
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
