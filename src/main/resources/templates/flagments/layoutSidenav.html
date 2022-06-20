@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="layoutSidenav" th:fragment="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav" >
+
+                    <!--PRODUCTS-->
+                    <div class="sb-sidenav-menu-heading">PRODUCTS</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Product
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="addproducts">Add products</a>
+                            <a class="nav-link" href="detailproduct">Detail products</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts0" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Type products
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts0" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="addtypeproduct">Add type products</a>
+                            <a class="nav-link" href="detaltypeproduct">Detail type products</a>
+                        </nav>
+                    </div>
+
+                    <!--EMPLOYEES-->
+                    <div class="sb-sidenav-menu-heading">EMPLOYEES</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Employees
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="admin/">Add employees</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">Detail employees</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Jobs
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="admin/">Add job</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">Detail job</a>
+                        </nav>
+                    </div>
+
+                    <!--SHOP-->
+                    <div class="sb-sidenav-menu-heading">SHOP</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Information shop
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="admin/">Add information shop</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">Detail information shop</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts5" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Type image
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts5" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="admin/">Add type image</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">Detail type image</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts4" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Image
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts4" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="admin/">Add image</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">Detail image</a>
+                        </nav>
+                    </div>
+
+                    <!--USER-->
+                    <div class="sb-sidenav-menu-heading">USER</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts6" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        User
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts6" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="admin/">Add user</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">Detail user</a>
+                        </nav>
+                    </div>
+
+                    <!--RECEIPTS-->
+                    <div class="sb-sidenav-menu-heading">RECEIPTS</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts7" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Receipts
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts7" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="admin/">Add receipts</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">List receipts</a>
+                        </nav>
+                    </div>
+
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts8" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Detail receipts
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts8" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="admin/">Add detail receipts</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">List detail receipts</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#collapseLayouts9" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Process
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts9" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="layout-sidenav-light.html">List detail receipts</a>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+
+        </nav>
+    </div>
+</body>
+</html>

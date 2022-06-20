@@ -25,4 +25,6 @@ public interface IUserServices {
     public UserEntity FindUserByUsername(String usName);
 
     public boolean checkLogin(UserEntity userEntity, String password) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeySpecException, InvalidKeyException;
+
+    public boolean checkOtpCode(String otpCode, String serectKey);
 }

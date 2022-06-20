@@ -12,6 +12,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.jboss.aerogear.security.otp.Totp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,15 @@ public class UserServicesImpl implements IUserServices, IMediaServices {
     }
 
     @Override
+    public boolean checkOtpCode(String otpCode, String serectKey) {
+        Totp totp = new Totp(serectKey);
+        if(totp.verify(otpCode)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void uploadFile(String path, MultipartFile multipartFile) {
         File rootPathFile = new File(path);
         if (rootPathFile.exists() == false) {
@@ -131,13 +141,13 @@ public class UserServicesImpl implements IUserServices, IMediaServices {
         }
         KeyPair kp = kpg.genKeyPair();
         PublicKey publicKey = kp.getPublic();
-        File publicKeyFile = createKeyFile(new File("D:/hoctap/ProjectJava/Selling_Perfume/RSA/publicKey.rsa"));
+        File publicKeyFile = createKeyFile(new File(".//RSA/publicKey.rsa"));
         FileOutputStream fos = new FileOutputStream(publicKeyFile.getAbsolutePath());
         fos.write(publicKey.getEncoded());
         fos.close();
 
         PrivateKey privateKey = kp.getPrivate();
-        File privateKeyFile = createKeyFile(new File("D:/hoctap/ProjectJava/Selling_Perfume/RSA/privateKey.rsa"));
+        File privateKeyFile = createKeyFile(new File(".//RSA/privateKey.rsa"));
         fos = new FileOutputStream(privateKeyFile.getAbsolutePath());
         fos.write(privateKey.getEncoded());
         fos.close();
@@ -147,7 +157,7 @@ public class UserServicesImpl implements IUserServices, IMediaServices {
     @Override
     public String Encrpytion(String pass) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException, InvalidKeySpecException {
         genaratePublicAndPrivatekey();
-        FileInputStream fis = new FileInputStream("D:/hoctap/ProjectJava/Selling_Perfume/RSA/publicKey.rsa");
+        FileInputStream fis = new FileInputStream(".//RSA/publicKey.rsa");
         byte[] b = new byte[fis.available()];
         fis.read(b);
         fis.close();
@@ -170,7 +180,7 @@ public class UserServicesImpl implements IUserServices, IMediaServices {
     public String Decryption(String passCrpytion) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeySpecException {
 
         //doc file chua public key
-        FileInputStream fis = new FileInputStream("D:/hoctap/ProjectJava/Selling_Perfume/RSA/privateKey.rsa");
+        FileInputStream fis = new FileInputStream(".//RSA/privateKey.rsa");
         byte[] b = new byte[fis.available()];
         fis.read(b);
         fis.close();

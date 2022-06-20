@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -53,7 +55,7 @@ public class UserController {
     @PostMapping(path = "createRegister")
     public String creatUser(@Valid @ModelAttribute UserEntity userEntity, HttpSession session, @RequestParam("avatars") MultipartFile multipartFile, @RequestParam("OTP") Boolean otp) throws Exception {
         String PathUpload = upload + "/UserAvatar";
-        if(!multipartFile.isEmpty()){
+        if (!multipartFile.isEmpty()) {
             userServicesImpl.uploadFile(PathUpload, multipartFile);
             userEntity.setAvatar(multipartFile.getOriginalFilename());
         }
@@ -66,13 +68,13 @@ public class UserController {
         if (otp == true) {
             userEntity.setActive_otp(otp);
             userEntity.setSerectKey(userServicesImpl.createSerectKey());
-            logger.info("serectkey"+userEntity.getSerectKey());
+            logger.info("serectkey" + userEntity.getSerectKey());
             byte[] imageQR = userServicesImpl.createQRCode(userEntity.getUsername(), userEntity.getSerectKey());
-            userServicesImpl.ConvertByteToImage(imageQR,upload+"/QRImage",userEntity.getUsername());
+            userServicesImpl.ConvertByteToImage(imageQR, upload + "/QRImage", userEntity.getUsername());
         }
-        session.setAttribute("isLogin",true);
+        session.setAttribute("isLogin", true);
         session.setAttribute("username", userEntity.getUsername());
-        String tokenInfoUser = createTokenInformationUser.createTokenValue(userEntity.getUsername(),userEntity.getAcountable_user());
+        String tokenInfoUser = createTokenInformationUser.createTokenValue(userEntity.getUsername(), userEntity.getAcountable_user());
 //        logger.info("token user: "+createTokenInformationUser.createTokenValue(userEntity.getUsername(),userEntity.getAcountable_user()));
 //        String splitToken = createTokenInformationUser.decryptTokenUser(tokenInfoUser);
 //        logger.info(splitToken);
@@ -91,40 +93,50 @@ public class UserController {
         return listUser;
     }
 
-    @PostMapping(path = "createCategory")
-    public CategoryEntity createCategory(@RequestBody CategoryEntity categoryEntity) {
-        return categoryServicesImpl.CreateCategory(categoryEntity);
-    }
-
-    @GetMapping(path="login")
-    public ModelAndView Login(){
+    @GetMapping(path = "login")
+    public ModelAndView Login() {
         return new ModelAndView("Login");
     }
 
-    @PostMapping(path="userLogin")
-    public ModelAndView userLogin(@RequestBody UserEntity userLogin) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeySpecException, InvalidKeyException {
+    @PostMapping(path = "userLogin")
+    public String userLogin(@RequestBody UserEntity userLogin, HttpSession session) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeySpecException, InvalidKeyException {
         UserEntity userInfo = userServicesImpl.FindUserByUsername(userLogin.getUsername());
-        logger.info(userInfo.getPassword());
-        if(userServicesImpl.checkLogin(userInfo,userLogin.getPassword())==true){
-            if(userInfo.getActive_otp()==true){
-                return new ModelAndView("OTP");
+        if (userServicesImpl.checkLogin(userInfo, userLogin.getPassword()) == true) {
+            if (userInfo.getActive_otp() == true) {
+                session.setAttribute("username", userLogin.getUsername());
+                return "OTP";
             }
-        }else{
-            logger.info("thatbai");
         }
+        session.setAttribute("isLogin", true);
         return null;
     }
 
-    @GetMapping(path="OTP")
-    public ModelAndView OTP(){
+    @GetMapping(path = "OTP")
+    public ModelAndView OTP(HttpSession session) {
+        try {
+            String username = session.getAttribute("username").toString();
+            logger.info(username);
+        } catch (NullPointerException ex) {
+            return new ModelAndView("Login");
+        }
         return new ModelAndView("OTP");
     }
 
-    @PostMapping(path="chekOTP")
-    public boolean checkOTP(@RequestBody OtpDTO otpDTO){
-        StringBuilder strOtp = null;
-        logger.info(otpDTO.getSixth());
-        strOtp.append(otpDTO.getFirst()).append(otpDTO.getSecond()).append(otpDTO.getThird()).append(otpDTO.getFourth()).append(otpDTO.getFifth()).append(otpDTO.getSixth());
-        return false;
+    @PostMapping(path = "chekOTP")
+    public String checkOTP(@RequestBody OtpDTO otpDTO, HttpSession session) {
+        try {
+            String username = session.getAttribute("username").toString();
+            StringBuilder strOtp = new StringBuilder();
+            strOtp.append(otpDTO.getFirst()).append(otpDTO.getSecond()).append(otpDTO.getThird()).append(otpDTO.getFourth()).append(otpDTO.getFifth()).append(otpDTO.getSixth());
+            UserEntity userInfo = userServicesImpl.FindUserByUsername(username);
+            session.setAttribute("username", null);
+            if (userServicesImpl.checkOtpCode(String.valueOf(strOtp), userInfo.getSerectKey())) {
+                session.setAttribute("isLogin", true);
+                return "homepage";
+            }
+            return "OTP";
+        } catch (NullPointerException ex) {
+            return "login";
+        }
     }
 }
