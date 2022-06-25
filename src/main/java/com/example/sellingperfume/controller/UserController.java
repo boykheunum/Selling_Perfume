@@ -5,6 +5,7 @@ import com.example.sellingperfume.entity.CategoryEntity;
 import com.example.sellingperfume.entity.UserEntity;
 import com.example.sellingperfume.services.impl.CategoryServicesImpl;
 import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
+import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.UserServicesImpl;
 import com.mysql.cj.Session;
 import org.apache.catalina.User;
@@ -45,6 +46,9 @@ public class UserController {
     @Autowired
     public CreateTokenInformationUser createTokenInformationUser;
 
+    @Autowired
+    public MediaServicesImpl mediaServicesImpl;
+
     @GetMapping(path = "home")
     public ModelAndView Homdepage() {
         return new ModelAndView("home");
@@ -56,13 +60,13 @@ public class UserController {
     public String creatUser(@Valid @ModelAttribute UserEntity userEntity, HttpSession session, @RequestParam("avatars") MultipartFile multipartFile, @RequestParam("OTP") Boolean otp) throws Exception {
         String PathUpload = upload + "/UserAvatar";
         if (!multipartFile.isEmpty()) {
-            userServicesImpl.uploadFile(PathUpload, multipartFile);
+            mediaServicesImpl.uploadFile(PathUpload, multipartFile);
             userEntity.setAvatar(multipartFile.getOriginalFilename());
         }
-        logger.info(userServicesImpl.Encrpytion(userEntity.getPassword()));
-        userEntity.setPassword(userServicesImpl.Encrpytion(userEntity.getPassword()));
+        logger.info(mediaServicesImpl.Encrpytion(userEntity.getPassword()));
+        userEntity.setPassword(mediaServicesImpl.Encrpytion(userEntity.getPassword()));
 
-        logger.info(userServicesImpl.Decryption(userEntity.getPassword()));
+        logger.info(mediaServicesImpl.Decryption(userEntity.getPassword()));
         userEntity.setCreateAt(LocalDateTime.now());
         userEntity.setCreateBy(userEntity.getUsername());
         if (otp == true) {
@@ -75,9 +79,9 @@ public class UserController {
         session.setAttribute("isLogin", true);
         session.setAttribute("username", userEntity.getUsername());
         String tokenInfoUser = createTokenInformationUser.createTokenValue(userEntity.getUsername(), userEntity.getAcountable_user());
-//        logger.info("token user: "+createTokenInformationUser.createTokenValue(userEntity.getUsername(),userEntity.getAcountable_user()));
-//        String splitToken = createTokenInformationUser.decryptTokenUser(tokenInfoUser);
-//        logger.info(splitToken);
+        logger.info("token user: "+createTokenInformationUser.createTokenValue(userEntity.getUsername(),userEntity.getAcountable_user()));
+        String splitToken = createTokenInformationUser.decryptTokenUser(tokenInfoUser);
+        logger.info(splitToken);
         session.setAttribute("TokenInfoUser", tokenInfoUser);
         return userServicesImpl.createUser(userEntity).toString();
     }
@@ -132,10 +136,15 @@ public class UserController {
             session.setAttribute("username", null);
             if (userServicesImpl.checkOtpCode(String.valueOf(strOtp), userInfo.getSerectKey())) {
                 session.setAttribute("isLogin", true);
+                String tokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), userInfo.getAcountable_user());
+                logger.info("logintoken"+tokenInfoUser);
+                session.setAttribute("TokenInfoUser", tokenInfoUser);
                 return "homepage";
             }
             return "OTP";
         } catch (NullPointerException ex) {
+            return "login";
+        } catch (Exception e) {
             return "login";
         }
     }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CategoryServicesImpl implements ICategoryServices {
@@ -16,7 +17,13 @@ public class CategoryServicesImpl implements ICategoryServices {
     ICategoryResposity iCategoryResposity;
     @Override
     public CategoryEntity CreateCategory(CategoryEntity categoryEntity) {
-        categoryEntity.setCreateAt(LocalDateTime.now());
+//        categoryEntity.setCreateAt(LocalDateTime.now());
         return iCategoryResposity.save(categoryEntity);
+    }
+
+    @Override
+    public List<CategoryEntity> getAllCategory() {
+        List<CategoryEntity> listCategory = iCategoryResposity.findAll();
+        return listCategory;
     }
 }
