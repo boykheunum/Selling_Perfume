@@ -55,6 +55,7 @@
                                 <th scope="col">Describe</th>
                                 <th scope="col">Update at</th>
                                 <th scope="col">Update by</th>
+                                <th scope="col">#</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -72,6 +73,7 @@
                                 <td th:text="${item.describe}"></td>
                                 <td th:text="${item.updateAt}"></td>
                                 <td th:text="${item.updateBy}"></td>
+                                <th scope="col"><a th:href="@{'/updateProduct?id={id}'(id=${item.id})}">update</a></th>
                             </tr>
                                 <th:block>
                             </tbody>

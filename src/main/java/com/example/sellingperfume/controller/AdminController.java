@@ -2,6 +2,7 @@ package com.example.sellingperfume.controller;
 
 import com.example.sellingperfume.entity.CategoryEntity;
 import com.example.sellingperfume.entity.ProductEntity;
+import com.example.sellingperfume.entity.UserEntity;
 import com.example.sellingperfume.resposity.ICategoryResposity;
 import com.example.sellingperfume.services.impl.CategoryServicesImpl;
 import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AdminController {
@@ -83,9 +86,9 @@ public class AdminController {
             mediaServicesImpl.uploadFile(PathUpload, multipartFile);
             productEntity.setCreateAt(LocalDateTime.now());
             productEntity.setCreateBy((splitToken.split(",")[1]));
-            if(multipartFile!=null){
-            productEntity.setImage(multipartFile.getOriginalFilename());
-            }else {
+            if (multipartFile != null) {
+                productEntity.setImage(multipartFile.getOriginalFilename());
+            } else {
                 productEntity.setImage(null);
             }
             productServicesImpl.createProduct(productEntity);
@@ -94,10 +97,53 @@ public class AdminController {
         }
         return "login";
     }
+
     @GetMapping(path = "listProducts")
-    public ModelAndView listProduct(Model model){
-        List<ProductEntity>getAllProduct = productServicesImpl.listProducts();
+    public ModelAndView listProduct(Model model) {
+        List<ProductEntity> getAllProduct = productServicesImpl.listProducts();
         model.addAttribute("listProduct", getAllProduct);
         return new ModelAndView("Product/ListProduct");
+    }
+
+    @GetMapping(path = "updateProduct")
+    public ModelAndView updateProduct(Model model,@Param("id") Long id) {
+        ModelAndView mv = new ModelAndView("/Product/UpdateProduct");
+        Optional<ProductEntity> oProductEntity = productServicesImpl.findProductByID(id);
+        ProductEntity productEntity = oProductEntity.get();
+        model.addAttribute("productEntity", productEntity);
+        List<CategoryEntity> listCategory = categoryServicesImpl.getAllCategory();
+        model.addAttribute("listCategory", listCategory);
+
+        return mv;
+    }
+
+    @PostMapping(path = "UpdateProduct")
+    public String UpdateProduct(@ModelAttribute ProductEntity productEntityById, @RequestParam("images") MultipartFile multipartFile, @RequestParam("productName") String name, HttpSession session, @RequestParam("id")long id) throws GeneralSecurityException, IOException {
+        if (session.getAttribute("TokenInfoUser") != null) {
+            logger.info(String.valueOf(id));
+            Optional<ProductEntity> oProductEntity = productServicesImpl.findProductByID(id);
+            ProductEntity productEntity = oProductEntity.get();
+            String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
+            String splitToken = createTokenInformationUser.decryptTokenUser(tokenInforUser);
+            String PathUpload = upload + "/ProductAvatar";
+            mediaServicesImpl.uploadFile(PathUpload, multipartFile);
+            productEntity.setUpdateAt(LocalDateTime.now());
+            productEntity.setUpdateBy((splitToken.split(",")[1]));
+            productEntity.setProductName(productEntityById.getProductName());
+            productEntity.setCatagory_id(productEntityById.getCatagory_id());
+            productEntity.setDescribe(productEntityById.getDescribe());
+            productEntity.setInputPrice(productEntityById.getInputPrice());
+            productEntity.setPrice(productEntityById.getPrice());
+            if (multipartFile != null) {
+                productEntity.setImage(multipartFile.getOriginalFilename());
+            } else {
+                productEntity.setImage(null);
+            }
+            logger.info(productEntityById.getProductName());
+            productServicesImpl.createProduct(productEntity);
+            logger.info("dat" + name);
+            return "homepage";
+        }
+        return"login";
     }
 }
