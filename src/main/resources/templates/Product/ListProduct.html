@@ -60,22 +60,24 @@
                             </thead>
                             <tbody>
                             <th:block th:each="item: ${listProduct}">
-                            <tr>
-                                <td th:text="${item.id}"></td>
-                                <td th:text="${item.productName}"></td>
-                                <td th:text="${item.catagory_id}"></td>
-                                <td th:text="${item.inputPrice}">@mdo</td>
-                                <td th:text="${item.price}"></td>
-                                <td th:text="${item.quantity}"></td>
-                                <td><img th:src="@{'~/uploads/ProductAvatar/'+${item.image}}"></td>
-                                <td th:text="${item.createAt}"></td>
-                                <td th:text="${item.createBy}"></td>
-                                <td th:text="${item.describe}"></td>
-                                <td th:text="${item.updateAt}"></td>
-                                <td th:text="${item.updateBy}"></td>
-                                <th scope="col"><a th:href="@{'/updateProduct?id={id}'(id=${item.id})}">update</a></th>
-                            </tr>
-                                <th:block>
+                                <tr>
+                                    <td th:text="${item.id}"></td>
+                                    <td th:text="${item.productName}"></td>
+                                    <td th:text="${item.catagory_id}"></td>
+                                    <td th:text="${item.inputPrice}">@mdo</td>
+                                    <td th:text="${item.price}"></td>
+                                    <td th:text="${item.quantity}"></td>
+                                    <td><img th:src="@{'~/uploads/ProductAvatar/'+${item.image}}"></td>
+                                    <td th:text="${item.createAt}"></td>
+                                    <td th:text="${item.createBy}"></td>
+                                    <td th:text="${item.describe}"></td>
+                                    <td th:text="${item.updateAt}"></td>
+                                    <td th:text="${item.updateBy}"></td>
+                                    <th scope="col"><a
+                                            th:href="@{'/updateProduct?id={id}'(id=${item.id})}">update</a>|<a
+                                            th:href="@{'/deleteProduct?id={id}'(id=${item.id})}">delete</a></th>
+                                </tr>
+                            </th:block>
                             </tbody>
                         </table>
                     </div>
@@ -88,8 +90,8 @@
 
 <div th:replace="flagments/Footer::foot"></div>
 <script>
-    $(document).ready(function(){
-        $("#productButton").click(function (){
+    $(document).ready(function () {
+        $("#productButton").click(function () {
             var form = $("#addProductForm")[0]
             var fdData = new FormData(form);
 

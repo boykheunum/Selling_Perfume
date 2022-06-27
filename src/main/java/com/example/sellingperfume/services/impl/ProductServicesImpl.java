@@ -33,4 +33,9 @@ public class ProductServicesImpl implements IProductServices {
     public Optional<ProductEntity> findProductByID(long id) {
         return iProductResposity.findById(id);
     }
+
+    @Override
+    public void deleteProduct(long id) {
+        iProductResposity.deleteById(id);
+    }
 }

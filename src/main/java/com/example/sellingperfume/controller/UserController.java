@@ -103,16 +103,19 @@ public class UserController {
     }
 
     @PostMapping(path = "userLogin")
-    public String userLogin(@RequestBody UserEntity userLogin, HttpSession session) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeySpecException, InvalidKeyException {
+    public String userLogin(@RequestBody UserEntity userLogin, HttpSession session) throws Exception {
         UserEntity userInfo = userServicesImpl.FindUserByUsername(userLogin.getUsername());
         if (userServicesImpl.checkLogin(userInfo, userLogin.getPassword()) == true) {
             if (userInfo.getActive_otp() == true) {
                 session.setAttribute("username", userLogin.getUsername());
                 return "OTP";
             }
+            String TokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), userInfo.getAcountable_user());
+            session.setAttribute("TokenInfoUser",TokenInfoUser);
+            session.setAttribute("isLogin", true);
+            return "homepage";
         }
-        session.setAttribute("isLogin", true);
-        return null;
+        return "login";
     }
 
     @GetMapping(path = "OTP")

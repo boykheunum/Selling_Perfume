@@ -68,7 +68,24 @@ public class AdminController {
         }
         return "login";
     }
-
+    @GetMapping(path = "listProductType")
+    public ModelAndView listProductType(Model model){
+        List<CategoryEntity>lCategoryEntity = categoryServicesImpl.getAllCategory();
+        model.addAttribute("categoryEntity", lCategoryEntity);
+        return new ModelAndView("/Category/ListCategory");
+    }
+    @GetMapping(path = "updateTypeProduct")
+    public ModelAndView updateproducttype(HttpSession session, @Param("id") long id, Model model) throws GeneralSecurityException, IOException {
+        logger.info(String.valueOf(id));
+        if (session.getAttribute("TokenInfoUser") != null) {
+            String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
+            String splitToken = createTokenInformationUser.decryptTokenUser(tokenInforUser);
+            CategoryEntity categoryEntity = categoryServicesImpl.searchCategoryById(id).get();
+            model.addAttribute("categoryEntity", categoryEntity);
+            return new ModelAndView("Category/UpdateCategory");
+        }
+        return new ModelAndView("login");
+    }
     @GetMapping(path = "addProduct")
     public ModelAndView addProduct(Model model) {
         ModelAndView mv = new ModelAndView("/admin/AddProduct");
@@ -145,5 +162,14 @@ public class AdminController {
             return "homepage";
         }
         return"login";
+    }
+    @GetMapping(path = "deleteProduct")
+    public String deleteProduct(@Param("id") Long id, HttpSession session){
+        if (session.getAttribute("TokenInfoUser") != null) {
+            productServicesImpl.deleteProduct(id);
+            String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
+            return "/Product/ListProduct";
+        }
+        return "login";
     }
 }

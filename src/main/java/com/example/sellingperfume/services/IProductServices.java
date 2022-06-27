@@ -13,4 +13,5 @@ public interface IProductServices {
     public List<ProductEntity> listProducts();
     public ProductEntity UpdateProduct(ProductEntity productEntity);
     public Optional<ProductEntity> findProductByID(long id);
+    public void deleteProduct(long id);
 }
