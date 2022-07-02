@@ -11,7 +11,12 @@ public interface IProductServices {
     public ProductEntity createProduct(ProductEntity productEntity);
 
     public List<ProductEntity> listProducts();
+
     public ProductEntity UpdateProduct(ProductEntity productEntity);
+
     public Optional<ProductEntity> findProductByID(long id);
+
     public void deleteProduct(long id);
+
+    public ProductEntity findProductByName(String ProductName);
 }

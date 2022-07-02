@@ -38,4 +38,9 @@ public class ProductServicesImpl implements IProductServices {
     public void deleteProduct(long id) {
         iProductResposity.deleteById(id);
     }
+
+    @Override
+    public ProductEntity findProductByName(String ProductName) {
+        return iProductResposity.loadProductByName(ProductName);
+    }
 }
