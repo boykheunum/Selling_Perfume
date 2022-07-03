@@ -69,6 +69,7 @@
                     <th scope="col">Product name</th>
                     <th scope="col">Category ID</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Extended price</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Image</th>
                     <th scope="col">#</th>
@@ -81,17 +82,25 @@
                         <td id="productName" name="productName" th:text="${item.productName}"></td>
                         <td id="category" name="category" th:text="${item.catagory_id}"></td>
                         <td id="price" name="price" th:text="${item.price}"></td>
+                        <td id="extendedPrice" name="extendedPrice" th:text="${item.price * item.quantity}"></td>
                         <td id="quantity" name="quantity" th:text="${item.quantity}"></td>
-                        <td><img th:src="@{'~/uploads/ProductAvatar/'+${item.image}}" style="width: 100px"
-                                 height="100px"></td>
+                        <td><img th:src="@{'~/uploads/ProductAvatar/'+${item.image}}" style="width: 100px;"
+                                 height="auto"></td>
                         <th scope="col">
                             <button type="button" name="deleteCart" id="deleteCart"
                                     th:attr="onclick=|myFunction('${item.productName}')|" class="btn btn-primary">Delete
                             </button>
                         </th>
                     </tr>
+
                 </th:block>
                 </tbody>
+                <tfooter>
+                    <tr>
+                        <td colspan="6"></td>
+                        <td>Tổng tiền:<span class="TongTien"></span></td>
+                    </tr>
+                </tfooter>
             </table>
         </div>
         <div>
@@ -126,8 +135,14 @@
             }
         })
     }
-    $(document).ready(function(){
-        $("#payButton").click(function(){
+
+    $(document).ready(function () {
+        var tong = 0
+        $("td[name='extendedPrice']").each(function (i, o) {
+            tong += parseFloat($(this).html())
+            $(".TongTien").html(tong)
+        })
+        $("#payButton").click(function () {
             $.ajax({
                 type: "POST",
                 url: '/payCart',
