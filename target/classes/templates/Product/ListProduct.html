@@ -1,13 +1,13 @@
 <!DOCTYPE html><!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:replace="flagments/Header::head"></head>
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed sb-sidenav-toggled">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
     <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-            class="fas fa-bars"></i></button>
+<!--    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i-->
+<!--            class="fas fa-bars"></i></button>-->
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         <div class="input-group">
@@ -33,12 +33,12 @@
     </ul>
 </nav>
 <div id="layoutSidenav">
-    <div th:replace="flagments/layoutSidenav::layoutSidenav"></div>
+<!--    <div th:replace="flagments/layoutSidenav::layoutSidenav"></div>-->
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Dashboard</h1>
-                <div class="row">
+                <div class="row position-relative">
                     <div class="card mb-4">
                         <table class="table">
                             <thead>
@@ -67,7 +67,8 @@
                                     <td th:text="${item.inputPrice}"></td>
                                     <td th:text="${item.price}"></td>
                                     <td th:text="${item.quantity}"></td>
-                                    <td><img th:src="@{'~/uploads/ProductAvatar/'+${item.image}}"></td>
+                                    <td><img th:src="@{'~/uploads/ProductAvatar/'+${item.image}}"
+                                             style="height:auto;width: 50px"></td>
                                     <td th:text="${item.createAt}"></td>
                                     <td th:text="${item.createBy}"></td>
                                     <td th:text="${item.describe}"></td>
@@ -81,6 +82,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="position-absolute FloatButton">
+                        <div>
+                            <a href="#"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -89,28 +95,28 @@
 </div>
 
 <div th:replace="flagments/Footer::foot"></div>
-<script>
-    $(document).ready(function () {
-        $("#productButton").click(function () {
-            var form = $("#addProductForm")[0]
-            var fdData = new FormData(form);
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $("#productButton").click(function () {-->
+<!--            var form = $("#addProductForm")[0]-->
+<!--            var fdData = new FormData(form);-->
 
-            fdData.set("images", $('#images')[0].files[0]);
-            console.log($('#images')[0].files[0])
-            $.ajax({
-                type: "POST",
-                url: '/createProduct',
-                data: fdData,
-                contentType: false,
-                processData: false,  // Important!
-                success: function (data) {
-                    window.location.replace(data);
-                }, error: function () {
-                    alert("thatbai");
-                }
-            })
-        })
-    })
-</script>
+<!--            fdData.set("images", $('#images')[0].files[0]);-->
+<!--            console.log($('#images')[0].files[0])-->
+<!--            $.ajax({-->
+<!--                type: "POST",-->
+<!--                url: '/createProduct',-->
+<!--                data: fdData,-->
+<!--                contentType: false,-->
+<!--                processData: false,  // Important!-->
+<!--                success: function (data) {-->
+<!--                    window.location.replace(data);-->
+<!--                }, error: function () {-->
+<!--                    alert("thatbai");-->
+<!--                }-->
+<!--            })-->
+<!--        })-->
+<!--    })-->
+<!--</script>-->
 </body>
 </html>
