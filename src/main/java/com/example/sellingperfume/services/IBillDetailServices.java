@@ -6,7 +6,7 @@ import com.example.sellingperfume.entity.BillEntity;
 import java.util.List;
 
 public interface IBillDetailServices {
-    public BillDetailEntity createBillDetail();
+    public BillDetailEntity createBillDetail(BillDetailEntity billDetailEntity);
 
     public List<BillDetailEntity>getAllBillDetail();
 
