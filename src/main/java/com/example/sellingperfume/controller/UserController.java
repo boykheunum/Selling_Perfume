@@ -1,37 +1,23 @@
 package com.example.sellingperfume.controller;
 
 import com.example.sellingperfume.DTO.OtpDTO;
-import com.example.sellingperfume.entity.CategoryEntity;
 import com.example.sellingperfume.entity.UserEntity;
 import com.example.sellingperfume.services.impl.CategoryServicesImpl;
 import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.UserServicesImpl;
-import com.mysql.cj.Session;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.net.URI;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -91,12 +77,6 @@ public class UserController {
         return new ModelAndView("Register");
     }
 
-    @GetMapping(path = "listUser")
-    public List<UserEntity> listUser() {
-        List<UserEntity> listUser = userServicesImpl.getAllUser();
-        return listUser;
-    }
-
     @GetMapping(path = "login")
     public ModelAndView Login() {
         return new ModelAndView("Login");
@@ -150,5 +130,19 @@ public class UserController {
         } catch (Exception e) {
             return "login";
         }
+    }
+
+    @GetMapping(path = "listUser")
+    public ModelAndView getListUser(Model model){
+        List<UserEntity> lUser = userServicesImpl.getAllUser();
+        model.addAttribute("lUser", lUser);
+        return new ModelAndView("User/UserList");
+    }
+
+    @GetMapping(path = "deleteAdmin")
+    public ModelAndView deleteAdmin(@RequestParam("id")Long id, Model model){
+        UserEntity userEntity = userServicesImpl.finUserById(id).get();
+        userServicesImpl.deleteUser(userEntity);
+        return getListUser(model);
     }
 }

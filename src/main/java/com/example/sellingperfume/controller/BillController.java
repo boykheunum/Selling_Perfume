@@ -3,7 +3,8 @@ package com.example.sellingperfume.controller;
 import com.example.sellingperfume.entity.BillDetailEntity;
 import com.example.sellingperfume.entity.BillEntity;
 import com.example.sellingperfume.entity.ProductEntity;
-import com.example.sellingperfume.services.impl.BillDeatilServicesImpl;
+
+import com.example.sellingperfume.services.impl.BillDetailServicesImpl;
 import com.example.sellingperfume.services.impl.BillServicesImpl;
 import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
@@ -29,7 +30,7 @@ import java.util.Set;
 @RestController
 public class BillController {
     @Autowired
-    public BillDeatilServicesImpl billDeatilServicesimpl;
+    public BillDetailServicesImpl billDeatilServicesimpl;
     @Autowired
     public BillServicesImpl billServicesImpl;
     @Autowired

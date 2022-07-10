@@ -111,6 +111,16 @@ public class UserServicesImpl implements IUserServices {
         return false;
     }
 
+    @Override
+    public Optional<UserEntity> finUserById(Long id) {
+        return iUserResposity.findById(id);
+    }
+
+    @Override
+    public void deleteUser(UserEntity userEntity) {
+        iUserResposity.delete(userEntity);
+    }
+
     public ImageIO ConvertByteToImage(byte[] image, String path, String fileName) {
         // TODO Auto-generated method stub
         ByteArrayInputStream bis = new ByteArrayInputStream(image);

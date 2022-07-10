@@ -10,6 +10,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Optional;
 
 public interface IUserServices {
     public List<UserEntity> getAllUser();
@@ -27,4 +28,9 @@ public interface IUserServices {
     public boolean checkLogin(UserEntity userEntity, String password) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeySpecException, InvalidKeyException;
 
     public boolean checkOtpCode(String otpCode, String serectKey);
+
+    public Optional<UserEntity> finUserById(Long id);
+
+    public void deleteUser(UserEntity userEntity);
+
 }

@@ -7,19 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
-public class BillDeatilServicesImpl implements IBillDetailServices {
+public class BillDetailServicesImpl implements IBillDetailServices {
     @Autowired
-    IBillDetailResposity iBillDetailResposit;
+    IBillDetailResposity iBillDetailResposity;
     @Override
     public BillDetailEntity createBillDetail(BillDetailEntity billDetailEntity) {
-        return iBillDetailResposit.save(billDetailEntity);
+        return iBillDetailResposity.save(billDetailEntity);
     }
 
     @Override
     public List<BillDetailEntity> getAllBillDetail() {
-        return iBillDetailResposit.findAll();
+        return iBillDetailResposity.findAll();
     }
 
     @Override

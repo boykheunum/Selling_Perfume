@@ -6,8 +6,8 @@
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
     <!-- Sidebar Toggle-->
-<!--    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i-->
-<!--            class="fas fa-bars"></i></button>-->
+    <!--    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i-->
+    <!--            class="fas fa-bars"></i></button>-->
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         <div class="input-group">
@@ -33,7 +33,7 @@
     </ul>
 </nav>
 <div id="layoutSidenav">
-<!--    <div th:replace="flagments/layoutSidenav::layoutSidenav"></div>-->
+    <!--    <div th:replace="flagments/layoutSidenav::layoutSidenav"></div>-->
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
@@ -44,39 +44,44 @@
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Product name</th>
-                                <th scope="col">Category ID</th>
-                                <th scope="col">Input price</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Image</th>
+                                <th scope="col">Full name</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Birtday</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Avatar</th>
                                 <th scope="col">Create at</th>
                                 <th scope="col">Create by</th>
-                                <th scope="col">Describe</th>
+                                <th scope="col">Adress</th>
                                 <th scope="col">Update at</th>
                                 <th scope="col">Update by</th>
+                                <th scope="col">Active OTP</th>
+                                <th scope="col">Serect_key</th>
                                 <th scope="col">#</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="item: ${listProduct}">
+                            <th:block th:each="item: ${lUser}">
                                 <tr>
                                     <td th:text="${item.id}"></td>
-                                    <td th:text="${item.productName}"></td>
-                                    <td th:text="${item.catagory_id}"></td>
-                                    <td th:text="${item.inputPrice}"></td>
-                                    <td th:text="${item.price}"></td>
-                                    <td th:text="${item.quantity}"></td>
-                                    <td><img th:src="@{'~/uploads/ProductAvatar/'+${item.image}}"
+                                    <td th:text="${item.fullName}"></td>
+                                    <td th:text="${item.username}"></td>
+                                    <td th:text="${item.phone}"></td>
+                                    <td th:text="${item.birthday}"></td>
+                                    <td th:text="${item.password}"></td>
+                                    <td th:text="${item.email}"></td>
+                                    <td><img th:src="@{'~/uploads/UserAvatar/'+${item.getAvatar()}}"
                                              style="height:auto;width: 50px"></td>
                                     <td th:text="${item.createAt}"></td>
                                     <td th:text="${item.createBy}"></td>
-                                    <td th:text="${item.describe}"></td>
+                                    <td th:text="${item.adress}"></td>
                                     <td th:text="${item.updateAt}"></td>
                                     <td th:text="${item.updateBy}"></td>
-                                    <th scope="col"><a
-                                            th:href="@{'/updateProduct?id={id}'(id=${item.id})}">update</a>|<a
-                                            th:href="@{'/deleteProduct?id={id}'(id=${item.id})}">delete</a></th>
+                                    <td th:text="${item.active_otp}"></td>
+                                    <td th:text="${item.serectKey}"></td>
+                                    <th scope="col">
+                                        <a th:href="@{'/deleteAdmin?id={id}'(id=${item.id})}">delete</a></th>
                                 </tr>
                             </th:block>
                             </tbody>
@@ -84,7 +89,7 @@
                     </div>
                     <div class="position-absolute FloatButton">
                         <div>
-                            <a href="/addProduct"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            <a href="/register"><i class="fa fa-plus" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
