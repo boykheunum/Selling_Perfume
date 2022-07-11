@@ -1,0 +1,111 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="flagments/Header::head">
+    <style>
+        #tableCustom{
+            max-width: 100px;
+            overflow-x: scroll;
+        }
+    </style>
+</head>
+<body class="sb-nav-fixed sb-sidenav-toggled">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+    <!-- Sidebar Toggle-->
+    <!--    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i-->
+    <!--            class="fas fa-bars"></i></button>-->
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
+                   aria-describedby="btnNavbarSearch"/>
+            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#!">Settings</a></li>
+                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <li>
+                    <hr class="dropdown-divider"/>
+                </li>
+                <li><a class="dropdown-item" href="#!">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <!--    <div th:replace="flagments/layoutSidenav::layoutSidenav"></div>-->
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Dashboard</h1>
+                <div class="row position-relative">
+                    <div class="card mb-4">
+                        <table class="table" id="tableCustom">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Full name</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Birtday</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Avatar</th>
+                                <th scope="col">Create at</th>
+                                <th scope="col">Create by</th>
+                                <th scope="col">Adress</th>
+                                <th scope="col">Update at</th>
+                                <th scope="col">Update by</th>
+                                <th scope="col">Active OTP</th>
+                                <th scope="col">Serect_key</th>
+                                <th scope="col">#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="item: ${lUser}">
+                                <tr>
+                                    <td th:text="${item.id}"></td>
+                                    <td th:text="${item.fullName}"></td>
+                                    <td th:text="${item.username}"></td>
+                                    <td th:text="${item.phone}"></td>
+                                    <td th:text="${item.birthday}"></td>
+                                    <td th:text="${item.password}"></td>
+                                    <td th:text="${item.email}"></td>
+                                    <td><img th:src="@{'~/uploads/UserAvatar/'+${item.getAvatar()}}"
+                                             style="height:auto;width: 50px"></td>
+                                    <td th:text="${item.createAt}"></td>
+                                    <td th:text="${item.createBy}"></td>
+                                    <td th:text="${item.adress}"></td>
+                                    <td th:text="${item.updateAt}"></td>
+                                    <td th:text="${item.updateBy}"></td>
+                                    <td th:text="${item.active_otp}"></td>
+                                    <td th:text="${item.serectKey}"></td>
+                                    <th scope="col">
+                                        <a th:href="@{'/deleteAdmin?id={id}'(id=${item.id})}">delete</a></th>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="position-absolute FloatButton">
+                        <div>
+                            <a href="/register"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="flagments/Footer::footer"></footer>
+    </div>
+</div>
+
+<div th:replace="flagments/Footer::foot"></div>
+</body>
+</html>

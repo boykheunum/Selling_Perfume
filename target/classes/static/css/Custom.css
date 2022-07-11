@@ -1,0 +1,31 @@
+
+.menuCustom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 60px;
+}
+
+.menuCustom a img {
+    width: 180px;
+    height: auto;
+    box-shadow: 0px 0px 12px -5px black;
+}
+
+.menuCustom span {
+    margin-left: 20px;
+    font-weight: 600;
+}
+.position-absolute.FloatButton {
+    position: absolute!important;
+    right: 80px;
+    bottom: -60px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+}
