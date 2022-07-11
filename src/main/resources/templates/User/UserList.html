@@ -1,6 +1,13 @@
 <!DOCTYPE html><!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="flagments/Header::head"></head>
+<head th:replace="flagments/Header::head">
+    <style>
+        #tableCustom{
+            max-width: 100px;
+            overflow-x: scroll;
+        }
+    </style>
+</head>
 <body class="sb-nav-fixed sb-sidenav-toggled">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
@@ -40,7 +47,7 @@
                 <h1 class="mt-4">Dashboard</h1>
                 <div class="row position-relative">
                     <div class="card mb-4">
-                        <table class="table">
+                        <table class="table" id="tableCustom">
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
