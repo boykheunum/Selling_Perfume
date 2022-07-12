@@ -117,12 +117,12 @@ public class ProductController {
     }
 
     @GetMapping(path = "deleteProduct")
-    public String deleteProduct(@Param("id") Long id, HttpSession session) {
+    public ModelAndView deleteProduct(@Param("id") Long id, HttpSession session, Model model) {
         if (session.getAttribute("TokenInfoUser") != null) {
             productServicesImpl.deleteProduct(id);
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
-            return "/Product/ListProduct";
+            return listProduct(model);
         }
-        return "login";
+        return new ModelAndView("login");
     }
 }
