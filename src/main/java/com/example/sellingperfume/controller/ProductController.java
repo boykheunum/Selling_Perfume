@@ -30,15 +30,19 @@ public class ProductController {
     @Autowired
     CategoryServicesImpl categoryServicesImpl;
     @Autowired
+
     private CreateTokenInformationUser createTokenInformationUser;
 
     @Autowired
+
     private MediaServicesImpl mediaServicesImpl;
     @Autowired
+
     private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping(path = "addProduct")
+    
     private ModelAndView addProduct(Model model) {
         ModelAndView mv = new ModelAndView("/admin/AddProduct");
         List<CategoryEntity> listCategory = categoryServicesImpl.getAllCategory();
@@ -47,6 +51,7 @@ public class ProductController {
     }
 
     @PostMapping(path = "createProduct")
+    
     private String createProduct(@ModelAttribute ProductEntity productEntity, @RequestParam("images") MultipartFile multipartFile, @RequestParam("productName") String name, HttpSession session) throws GeneralSecurityException, IOException {
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
@@ -68,6 +73,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "listProducts")
+
     private ModelAndView listProduct(Model model) {
         List<ProductEntity> getAllProduct = productServicesImpl.listProducts();
         model.addAttribute("listProduct", getAllProduct);
@@ -87,6 +93,7 @@ public class ProductController {
     }
 
     @PostMapping(path = "UpdateProduct")
+   
     private String UpdateProduct(@ModelAttribute ProductEntity productEntityById, @RequestParam("images") MultipartFile multipartFile, @RequestParam("productName") String name, HttpSession session, @RequestParam("id") long id) throws GeneralSecurityException, IOException {
         if (session.getAttribute("TokenInfoUser") != null) {
             logger.info(String.valueOf(id));
@@ -121,8 +128,8 @@ public class ProductController {
         if (session.getAttribute("TokenInfoUser") != null) {
             productServicesImpl.deleteProduct(id);
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
-            return "/Product/ListProduct";
+            return listProduct(model);
         }
-        return "login";
+        return new ModelAndView("login");
     }
 }
