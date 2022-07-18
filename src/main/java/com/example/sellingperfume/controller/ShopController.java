@@ -5,6 +5,10 @@ import com.example.sellingperfume.services.impl.CategoryServicesImpl;
 import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,27 +24,32 @@ import java.util.List;
 @RestController
 public class ShopController {
     @Value("${upload.part}")
-    public String upload;
+    private String upload;
     @Autowired
-    CategoryServicesImpl categoryServicesImpl;
+    private CategoryServicesImpl categoryServicesImpl;
     @Autowired
-    public CreateTokenInformationUser createTokenInformationUser;
+    private CreateTokenInformationUser createTokenInformationUser;
     @Autowired
-    public MediaServicesImpl mediaServicesImpl;
+    private MediaServicesImpl mediaServicesImpl;
     @Autowired
-    public ProductServicesImpl productServicesImpl;
+    private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(ShopController.class);
 
     @GetMapping(path = "homepage")
-    public ModelAndView HomePage(Model model) {
+    private ModelAndView HomePage(Model model) {
+
         List<ProductEntity> lProductEntity = productServicesImpl.listProducts();
         logger.info(lProductEntity.get(0).getProductName());
         model.addAttribute("lProductEntity", lProductEntity);
+        logger.info(LocalDateTime.now().toString());
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").withZone(DateTimeZone.forID("Asia/Ho_Chi_Minh"));
+        logger.info(date.toString(fmt));
         return new ModelAndView("Home/Home");
     }
 
     @GetMapping(path = "detailProduct")
-    public ModelAndView DetailProduct(Model model, @Param("id") long id) {
+    private ModelAndView DetailProduct(Model model, @Param("id") long id) {
         ProductEntity productEntity = productServicesImpl.findProductByID(id).get();
         model.addAttribute("productEntity", productEntity);
         return new ModelAndView("Home/DetailProduct");

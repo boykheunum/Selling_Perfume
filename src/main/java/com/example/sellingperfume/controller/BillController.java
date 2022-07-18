@@ -30,17 +30,17 @@ import java.util.Set;
 @RestController
 public class BillController {
     @Autowired
-    public BillDetailServicesImpl billDeatilServicesimpl;
+    private BillDetailServicesImpl billDeatilServicesimpl;
     @Autowired
-    public BillServicesImpl billServicesImpl;
+    private BillServicesImpl billServicesImpl;
     @Autowired
-    public CreateTokenInformationUser createTokenInformationUser;
+    private CreateTokenInformationUser createTokenInformationUser;
     @Autowired
-    public ProductServicesImpl productServicesImpl;
+    private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(BillController.class);
 
     @PostMapping(path = "payCart")
-    public String payCart(HttpSession session, Model model) throws GeneralSecurityException, IOException {
+    private String payCart(HttpSession session, Model model) throws GeneralSecurityException, IOException {
         float grandTotal = 0;
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = (String) session.getAttribute("TokenInfoUser");
@@ -85,20 +85,20 @@ public class BillController {
         return "login";
     }
     @GetMapping(path = "listDetailBill")
-    public ModelAndView listDetailBill(Model model){
+    private ModelAndView listDetailBill(Model model){
         List<BillDetailEntity> listBillDetail = billDeatilServicesimpl.getAllBillDetail();
         model.addAttribute("listBillDetail",listBillDetail);
         return new ModelAndView("bill/listDetailBill");
     }
     @GetMapping(path="listBill")
-    public ModelAndView listBill(Model model){
+    private ModelAndView listBill(Model model){
         List<BillEntity> lBill = billServicesImpl.getAllBill();
         model.addAttribute("lBill", lBill);
         return new ModelAndView("/bill/Listbill");
     }
 
     @GetMapping(path = "DeleteBill")
-    public ModelAndView deleteBillByid(@Param("id") Long id, HttpSession session){
+    private ModelAndView deleteBillByid(@Param("id") Long id, HttpSession session){
         if(session.getAttribute("TokenInfoUser") != null) {
             if (billServicesImpl.getBillById(id) != null) {
                 BillEntity billEntity = billServicesImpl.getBillById(id).get();

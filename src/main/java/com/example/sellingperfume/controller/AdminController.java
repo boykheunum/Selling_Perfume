@@ -31,16 +31,16 @@ import java.util.Optional;
 @RestController
 public class AdminController {
     @Value("${upload.part}")
-    public String upload;
+    private String upload;
     @Autowired
-    CategoryServicesImpl categoryServicesImpl;
+    private CategoryServicesImpl categoryServicesImpl;
     @Autowired
-    public CreateTokenInformationUser createTokenInformationUser;
+    private CreateTokenInformationUser createTokenInformationUser;
 
     @Autowired
-    public MediaServicesImpl mediaServicesImpl;
+    private MediaServicesImpl mediaServicesImpl;
     @Autowired
-    public ProductServicesImpl productServicesImpl;
+    private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @GetMapping(path = "/adminpage")

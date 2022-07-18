@@ -33,4 +33,7 @@ public interface IUserServices {
 
     public void deleteUser(UserEntity userEntity);
 
+    public StringBuilder ShowButtonAdmin(String str);
+
+
 }

@@ -54,12 +54,19 @@ public class UserEntity extends AbtractEntity{
     @Column(name = "Status_acount", columnDefinition = "nvarchar(50)")
     private String statusAcount;
 
-
-    @Column(name = "Acountable", columnDefinition = "nvarchar(6) default '000000'")
-    private String acountable;
-
     @Column(name = "Birthday", columnDefinition = "DATE")
     private String birthday;
+
+    @Column(name="permissions_id", columnDefinition = "nvarchar(50)")
+    private String permissions_id;
+
+    public String getPermissions_id() {
+        return permissions_id;
+    }
+
+    public void setPermissions_id(String permissions_id) {
+        this.permissions_id = permissions_id;
+    }
 
     public String getBirthday() {
         return birthday;
@@ -67,15 +74,6 @@ public class UserEntity extends AbtractEntity{
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
-    }
-
-
-    public String getAcountable_user() {
-        return acountable;
-    }
-
-    public void setAcountable_user(String acountable) {
-        this.acountable = acountable;
     }
 
     public String getFullName() {

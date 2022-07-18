@@ -52,8 +52,8 @@ public class CreateTokenInformationUser {
         return base64Encode(iv) + ":" + base64Encode(cryptoText);
     }
 
-    public static String createTokenValue(String username, String systemFunction) throws Exception {
-        String value = TITLE + DELIMITERSCHARACTER + username + DELIMITERSCHARACTER + systemFunction + DELIMITERSCHARACTER;
+    public static String createTokenValue(String username, String systemFunction, String permissons) throws Exception {
+        String value = TITLE + DELIMITERSCHARACTER + username + DELIMITERSCHARACTER + systemFunction + DELIMITERSCHARACTER + permissons;
         value = encryptAD(value, getKeyEncrypt("tokenKey"));
         return value;//return base64
     }

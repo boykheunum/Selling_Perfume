@@ -27,23 +27,23 @@ import java.util.Optional;
 public class CategoryController {
     private static Logger logger = LoggerFactory.getLogger(CategoryController.class);
     @Value("${upload.part}")
-    public String upload;
+    private String upload;
     @Autowired
     CategoryServicesImpl categoryServicesImpl;
     @Autowired
-    public CreateTokenInformationUser createTokenInformationUser;
+    private CreateTokenInformationUser createTokenInformationUser;
     @Autowired
-    public MediaServicesImpl mediaServicesImpl;
+    private MediaServicesImpl mediaServicesImpl;
     @Autowired
-    public ProductServicesImpl productServicesImpl;
+    private ProductServicesImpl productServicesImpl;
 
     @GetMapping(path = "addCategory")
-    public ModelAndView addTypeProduct() {
+    private ModelAndView addTypeProduct() {
         return new ModelAndView("/Admin/AddTypeProduct");
     }
 
     @PostMapping(path = "createCategory")
-    public String createTypeProduct(@RequestBody CategoryEntity categoryEntity, HttpServletRequest rq) throws GeneralSecurityException, IOException {
+    private String createTypeProduct(@RequestBody CategoryEntity categoryEntity, HttpServletRequest rq) throws GeneralSecurityException, IOException {
         HttpSession session = rq.getSession();
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
@@ -59,14 +59,14 @@ public class CategoryController {
     }
 
     @GetMapping(path = "listCategory")
-    public ModelAndView listProductType(Model model) {
+    private ModelAndView listProductType(Model model) {
         List<CategoryEntity> lCategoryEntity = categoryServicesImpl.getAllCategory();
         model.addAttribute("categoryEntity", lCategoryEntity);
         return new ModelAndView("/Category/ListCategory");
     }
 
     @GetMapping(path = "updateCategory")
-    public ModelAndView updateproducttype(HttpSession session, @Param("id") long id, Model model) throws GeneralSecurityException, IOException {
+    private ModelAndView updateproducttype(HttpSession session, @Param("id") long id, Model model) throws GeneralSecurityException, IOException {
         logger.info(String.valueOf(id));
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();

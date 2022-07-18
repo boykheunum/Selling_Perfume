@@ -138,4 +138,32 @@ public class UserServicesImpl implements IUserServices {
         }
         return null;
     }
+
+    @Override
+    public StringBuilder ShowButtonAdmin(String str) {
+//        StringBuilder adminDecentralizationButton = null;
+//        if(str != null && !str.isEmpty()) {
+//            String arr[] = str.split("\\w");
+//            for (int i = 1; i < arr.length; i++) {
+//                if (arr[i].equals("1")) {
+//                    adminDecentralizationButton.append(i);
+//                }
+//            }
+//        }
+//        return adminDecentralizationButton;
+        return null;
+    }
+
+    private StringBuilder checkShowButtonAdmin(String str){
+        StringBuilder adminDecentralizationButton = null;
+        if(str != null && !str.isEmpty()) {
+            String arr[] = str.split("\\w");
+            for (int i = 1; i < arr.length; i++) {
+                if (arr[i].equals("1")) {
+                    adminDecentralizationButton.append(i);
+                }
+            }
+        }
+        return adminDecentralizationButton;
+    }
 }

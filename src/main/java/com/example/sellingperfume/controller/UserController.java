@@ -2,15 +2,11 @@ package com.example.sellingperfume.controller;
 
 import com.example.sellingperfume.DTO.OtpDTO;
 import com.example.sellingperfume.entity.UserEntity;
-import com.example.sellingperfume.services.impl.CategoryServicesImpl;
-import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
-import com.example.sellingperfume.services.impl.MediaServicesImpl;
-import com.example.sellingperfume.services.impl.UserServicesImpl;
+import com.example.sellingperfume.services.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,26 +20,29 @@ import java.util.List;
 @RestController
 public class UserController {
     @Value("${upload.part}")
-    public String upload;
+    private String upload;
     @Autowired
-    public UserServicesImpl userServicesImpl;
+    private UserServicesImpl userServicesImpl;
     @Autowired
-    public CategoryServicesImpl categoryServicesImpl;
+    private CategoryServicesImpl categoryServicesImpl;
     @Autowired
-    public CreateTokenInformationUser createTokenInformationUser;
+    private CreateTokenInformationUser createTokenInformationUser;
 
     @Autowired
-    public MediaServicesImpl mediaServicesImpl;
+    private MediaServicesImpl mediaServicesImpl;
+
+    @Autowired
+    private PermissionServicesImpl permissionServicesImpl;
 
     @GetMapping(path = "home")
-    public ModelAndView Homdepage() {
+    private ModelAndView Homdepage() {
         return new ModelAndView("home");
     }
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping(path = "createRegister")
-    public String creatUser(@Valid @ModelAttribute UserEntity userEntity, HttpSession session, @RequestParam("avatars") MultipartFile multipartFile, @RequestParam("OTP") Boolean otp) throws Exception {
+    private String creatUser(@Valid @ModelAttribute UserEntity userEntity, HttpSession session, @RequestParam("avatars") MultipartFile multipartFile, @RequestParam("OTP") Boolean otp) throws Exception {
         String PathUpload = upload + "/UserAvatar";
         if (!multipartFile.isEmpty()) {
             mediaServicesImpl.uploadFile(PathUpload, multipartFile);
@@ -55,6 +54,7 @@ public class UserController {
         logger.info(mediaServicesImpl.Decryption(userEntity.getPassword()));
         userEntity.setCreateAt(LocalDateTime.now());
         userEntity.setCreateBy(userEntity.getUsername());
+        userEntity.setPermissions_id(permissionServicesImpl.convertTotalPermissionToString().toString());
         if (otp == true) {
             userEntity.setActive_otp(otp);
             userEntity.setSerectKey(userServicesImpl.createSerectKey());
@@ -64,8 +64,7 @@ public class UserController {
         }
         session.setAttribute("isLogin", true);
         session.setAttribute("username", userEntity.getUsername());
-        String tokenInfoUser = createTokenInformationUser.createTokenValue(userEntity.getUsername(), userEntity.getAcountable_user());
-        logger.info("token user: "+createTokenInformationUser.createTokenValue(userEntity.getUsername(),userEntity.getAcountable_user()));
+        String tokenInfoUser = createTokenInformationUser.createTokenValue(userEntity.getUsername(),"tam chua co", userEntity.getPermissions_id());
         String splitToken = createTokenInformationUser.decryptTokenUser(tokenInfoUser);
         logger.info(splitToken);
         session.setAttribute("TokenInfoUser", tokenInfoUser);
@@ -73,24 +72,24 @@ public class UserController {
     }
 
     @GetMapping(path = "register")
-    public ModelAndView register() {
+    private ModelAndView register() {
         return new ModelAndView("Register");
     }
 
     @GetMapping(path = "login")
-    public ModelAndView Login() {
+    private ModelAndView Login() {
         return new ModelAndView("Login");
     }
 
     @PostMapping(path = "userLogin")
-    public String userLogin(@RequestBody UserEntity userLogin, HttpSession session) throws Exception {
+    private String userLogin(@RequestBody UserEntity userLogin, HttpSession session) throws Exception {
         UserEntity userInfo = userServicesImpl.FindUserByUsername(userLogin.getUsername());
         if (userServicesImpl.checkLogin(userInfo, userLogin.getPassword()) == true) {
             if (userInfo.getActive_otp() == true) {
                 session.setAttribute("username", userLogin.getUsername());
                 return "OTP";
             }
-            String TokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), userInfo.getAcountable_user());
+            String TokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), "ToDo");
             session.setAttribute("TokenInfoUser",TokenInfoUser);
             session.setAttribute("isLogin", true);
             return "homepage";
@@ -99,7 +98,7 @@ public class UserController {
     }
 
     @GetMapping(path = "OTP")
-    public ModelAndView OTP(HttpSession session) {
+    private ModelAndView OTP(HttpSession session) {
         try {
             String username = session.getAttribute("username").toString();
             logger.info(username);
@@ -110,7 +109,7 @@ public class UserController {
     }
 
     @PostMapping(path = "chekOTP")
-    public String checkOTP(@RequestBody OtpDTO otpDTO, HttpSession session) {
+    private String checkOTP(@RequestBody OtpDTO otpDTO, HttpSession session) {
         try {
             String username = session.getAttribute("username").toString();
             StringBuilder strOtp = new StringBuilder();
@@ -119,7 +118,7 @@ public class UserController {
             session.setAttribute("username", null);
             if (userServicesImpl.checkOtpCode(String.valueOf(strOtp), userInfo.getSerectKey())) {
                 session.setAttribute("isLogin", true);
-                String tokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), userInfo.getAcountable_user());
+                String tokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), "TODO");
                 logger.info("logintoken"+tokenInfoUser);
                 session.setAttribute("TokenInfoUser", tokenInfoUser);
                 return "homepage";
@@ -133,14 +132,14 @@ public class UserController {
     }
 
     @GetMapping(path = "listUser")
-    public ModelAndView getListUser(Model model){
+    private ModelAndView getListUser(Model model){
         List<UserEntity> lUser = userServicesImpl.getAllUser();
         model.addAttribute("lUser", lUser);
         return new ModelAndView("User/UserList");
     }
 
     @GetMapping(path = "deleteAdmin")
-    public ModelAndView deleteAdmin(@RequestParam("id")Long id, Model model){
+    private ModelAndView deleteAdmin(@RequestParam("id")Long id, Model model){
         UserEntity userEntity = userServicesImpl.finUserById(id).get();
         userServicesImpl.deleteUser(userEntity);
         return getListUser(model);

@@ -22,20 +22,20 @@ import java.util.*;
 @RestController
 public class CartController {
     @Value("${upload.part}")
-    public String upload;
+    private String upload;
     @Autowired
     CategoryServicesImpl categoryServicesImpl;
     @Autowired
-    public CreateTokenInformationUser createTokenInformationUser;
+    private CreateTokenInformationUser createTokenInformationUser;
 
     @Autowired
-    public MediaServicesImpl mediaServicesImpl;
+    private MediaServicesImpl mediaServicesImpl;
     @Autowired
-    public ProductServicesImpl productServicesImpl;
+    private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @PostMapping(path = "addToCart")
-    public String addToCart(@RequestBody ProductEntity data, HttpSession session, Model model) {
+    private String addToCart(@RequestBody ProductEntity data, HttpSession session, Model model) {
         Map<String, Integer> Cart;
         logger.info(String.valueOf(data.getQuantity()));
         if (session.getAttribute("CartSession") == null) {
@@ -55,7 +55,7 @@ public class CartController {
     }
 
     @GetMapping(path="Cart")
-    public ModelAndView Cart(Model model, HttpSession session){
+    private ModelAndView Cart(Model model, HttpSession session){
         if(session.getAttribute("CartSession")!= null) {
             Map<String,Integer> Cart = (Map<String, Integer>) session.getAttribute("CartSession");
             List<ProductEntity> lProduct = new ArrayList<>();
@@ -71,7 +71,7 @@ public class CartController {
     }
 
     @PostMapping(path="deleteCart")
-    public String deleteCart(Model model, HttpSession session, @RequestBody ProductEntity data){
+    private String deleteCart(Model model, HttpSession session, @RequestBody ProductEntity data){
         if(session.getAttribute("CartSession")!= null) {
             Map<String,Integer> Cart = (Map<String, Integer>) session.getAttribute("CartSession");
             if(Cart.containsKey(data.getProductName())) {

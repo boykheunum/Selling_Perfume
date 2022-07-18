@@ -26,20 +26,20 @@ import java.util.Optional;
 @RestController
 public class ProductController {
     @Value("${upload.part}")
-    public String upload;
+    private String upload;
     @Autowired
     CategoryServicesImpl categoryServicesImpl;
     @Autowired
-    public CreateTokenInformationUser createTokenInformationUser;
+    private CreateTokenInformationUser createTokenInformationUser;
 
     @Autowired
-    public MediaServicesImpl mediaServicesImpl;
+    private MediaServicesImpl mediaServicesImpl;
     @Autowired
-    public ProductServicesImpl productServicesImpl;
+    private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping(path = "addProduct")
-    public ModelAndView addProduct(Model model) {
+    private ModelAndView addProduct(Model model) {
         ModelAndView mv = new ModelAndView("/admin/AddProduct");
         List<CategoryEntity> listCategory = categoryServicesImpl.getAllCategory();
         model.addAttribute("listCategory", listCategory);
@@ -47,7 +47,7 @@ public class ProductController {
     }
 
     @PostMapping(path = "createProduct")
-    public String createProduct(@ModelAttribute ProductEntity productEntity, @RequestParam("images") MultipartFile multipartFile, @RequestParam("productName") String name, HttpSession session) throws GeneralSecurityException, IOException {
+    private String createProduct(@ModelAttribute ProductEntity productEntity, @RequestParam("images") MultipartFile multipartFile, @RequestParam("productName") String name, HttpSession session) throws GeneralSecurityException, IOException {
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
             String splitToken = createTokenInformationUser.decryptTokenUser(tokenInforUser);
@@ -68,14 +68,14 @@ public class ProductController {
     }
 
     @GetMapping(path = "listProducts")
-    public ModelAndView listProduct(Model model) {
+    private ModelAndView listProduct(Model model) {
         List<ProductEntity> getAllProduct = productServicesImpl.listProducts();
         model.addAttribute("listProduct", getAllProduct);
         return new ModelAndView("Product/ListProduct");
     }
 
     @GetMapping(path = "updateProduct")
-    public ModelAndView updateProduct(Model model, @Param("id") Long id) {
+    private ModelAndView updateProduct(Model model, @Param("id") Long id) {
         ModelAndView mv = new ModelAndView("/Product/UpdateProduct");
         Optional<ProductEntity> oProductEntity = productServicesImpl.findProductByID(id);
         ProductEntity productEntity = oProductEntity.get();
@@ -87,7 +87,7 @@ public class ProductController {
     }
 
     @PostMapping(path = "UpdateProduct")
-    public String UpdateProduct(@ModelAttribute ProductEntity productEntityById, @RequestParam("images") MultipartFile multipartFile, @RequestParam("productName") String name, HttpSession session, @RequestParam("id") long id) throws GeneralSecurityException, IOException {
+    private String UpdateProduct(@ModelAttribute ProductEntity productEntityById, @RequestParam("images") MultipartFile multipartFile, @RequestParam("productName") String name, HttpSession session, @RequestParam("id") long id) throws GeneralSecurityException, IOException {
         if (session.getAttribute("TokenInfoUser") != null) {
             logger.info(String.valueOf(id));
             Optional<ProductEntity> oProductEntity = productServicesImpl.findProductByID(id);
@@ -117,7 +117,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "deleteProduct")
-    public String deleteProduct(@Param("id") Long id, HttpSession session) {
+    private String deleteProduct(@Param("id") Long id, HttpSession session) {
         if (session.getAttribute("TokenInfoUser") != null) {
             productServicesImpl.deleteProduct(id);
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
