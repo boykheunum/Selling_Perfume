@@ -2,9 +2,10 @@ package com.example.sellingperfume.entity;
 
 
 
-import org.joda.time.DateTime;
+
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -16,13 +17,13 @@ public abstract class AbtractEntity {
     @Column(name = "Create_at", columnDefinition = "DATETIME")
     private LocalDateTime createAt;
 
-    @Column(name = "create_by", columnDefinition = "nvarchar(50)")
+    @Column(name = "create_by", columnDefinition = "varchar(50)")
     private String createBy;
 
     @Column(name = "Update_at", columnDefinition = "DATETIME")
     private LocalDateTime updateAt;
 
-    @Column(name = "Update_by", columnDefinition = "nvarchar(50)")
+    @Column(name = "Update_by", columnDefinition = "varchar(50)")
     private String updateBy;
 
     public Long getId() {

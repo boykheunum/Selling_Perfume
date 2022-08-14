@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "category")
 public class CategoryEntity extends AbtractEntity{
-    @Column(name = "name", columnDefinition = "nvarchar(50)")
+    @Column(name = "name", columnDefinition = "varchar(50)")
     private String name;
 
     public String getName() {

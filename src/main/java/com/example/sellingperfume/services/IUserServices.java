@@ -29,7 +29,7 @@ public interface IUserServices {
 
     public boolean checkOtpCode(String otpCode, String serectKey);
 
-    public Optional<UserEntity> finUserById(Long id);
+    public UserEntity finUserById(Long id);
 
     public void deleteUser(UserEntity userEntity);
 

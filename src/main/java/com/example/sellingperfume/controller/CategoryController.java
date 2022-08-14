@@ -5,6 +5,7 @@ import com.example.sellingperfume.services.impl.CategoryServicesImpl;
 import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/admin/")
 public class CategoryController {
     private static Logger logger = LoggerFactory.getLogger(CategoryController.class);
     @Value("${upload.part}")

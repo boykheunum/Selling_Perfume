@@ -1,8 +1,11 @@
 package com.example.sellingperfume.controller;
 
 import com.example.sellingperfume.DTO.OtpDTO;
+import com.example.sellingperfume.entity.AuthorityEntity;
+import com.example.sellingperfume.entity.UserAuthorityEntity;
 import com.example.sellingperfume.entity.UserEntity;
 import com.example.sellingperfume.services.impl.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,15 +28,11 @@ public class UserController {
     @Autowired
     private UserServicesImpl userServicesImpl;
     @Autowired
-    private CategoryServicesImpl categoryServicesImpl;
-    @Autowired
     private CreateTokenInformationUser createTokenInformationUser;
-
     @Autowired
     private MediaServicesImpl mediaServicesImpl;
-
     @Autowired
-    private PermissionServicesImpl permissionServicesImpl;
+    private UserAthorityServicesImpl userAthorityServicesImpl;
 
     @GetMapping(path = "home")
     private ModelAndView Homdepage() {
@@ -54,7 +54,7 @@ public class UserController {
         logger.info(mediaServicesImpl.Decryption(userEntity.getPassword()));
         userEntity.setCreateAt(LocalDateTime.now());
         userEntity.setCreateBy(userEntity.getUsername());
-        userEntity.setPermissions_id(permissionServicesImpl.convertTotalPermissionToString().toString());
+
         if (otp == true) {
             userEntity.setActive_otp(otp);
             userEntity.setSerectKey(userServicesImpl.createSerectKey());
@@ -64,7 +64,7 @@ public class UserController {
         }
         session.setAttribute("isLogin", true);
         session.setAttribute("username", userEntity.getUsername());
-        String tokenInfoUser = createTokenInformationUser.createTokenValue(userEntity.getUsername(),"tam chua co", userEntity.getPermissions_id());
+        String tokenInfoUser = createTokenInformationUser.createTokenValue(userEntity.getUsername(),"tam chua co", "TODO");
         String splitToken = createTokenInformationUser.decryptTokenUser(tokenInfoUser);
         logger.info(splitToken);
         session.setAttribute("TokenInfoUser", tokenInfoUser);
@@ -89,7 +89,9 @@ public class UserController {
                 session.setAttribute("username", userLogin.getUsername());
                 return "OTP";
             }
-            String TokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), "ToDo");
+            UserAuthorityEntity userAuthorityEntity = userAthorityServicesImpl.findAuthorityForUser(userInfo.getId());
+            String authorityStr = userAthorityServicesImpl.checkAuthority(userAuthorityEntity).toString();
+            String TokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), authorityStr, "TODO");
             session.setAttribute("TokenInfoUser",TokenInfoUser);
             session.setAttribute("isLogin", true);
             return "homepage";
@@ -115,11 +117,14 @@ public class UserController {
             StringBuilder strOtp = new StringBuilder();
             strOtp.append(otpDTO.getFirst()).append(otpDTO.getSecond()).append(otpDTO.getThird()).append(otpDTO.getFourth()).append(otpDTO.getFifth()).append(otpDTO.getSixth());
             UserEntity userInfo = userServicesImpl.FindUserByUsername(username);
-            session.setAttribute("username", null);
+//            session.setAttribute("username", null);
+
             if (userServicesImpl.checkOtpCode(String.valueOf(strOtp), userInfo.getSerectKey())) {
                 session.setAttribute("isLogin", true);
-                String tokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), "TODO");
-                logger.info("logintoken"+tokenInfoUser);
+                UserAuthorityEntity userAuthorityEntity = userAthorityServicesImpl.findAuthorityForUser(userInfo.getId());
+                String authorityStr = userAthorityServicesImpl.checkAuthority(userAuthorityEntity).toString();
+                String tokenInfoUser = createTokenInformationUser.createTokenValue(userInfo.getUsername(), authorityStr, "TODO");
+                logger.info("logintoken: "+tokenInfoUser);
                 session.setAttribute("TokenInfoUser", tokenInfoUser);
                 return "homepage";
             }
@@ -140,7 +145,7 @@ public class UserController {
 
     @GetMapping(path = "deleteAdmin")
     private ModelAndView deleteAdmin(@RequestParam("id")Long id, Model model){
-        UserEntity userEntity = userServicesImpl.finUserById(id).get();
+        UserEntity userEntity = userServicesImpl.finUserById(id);
         userServicesImpl.deleteUser(userEntity);
         return getListUser(model);
     }

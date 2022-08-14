@@ -10,10 +10,10 @@ public class ProductEntity extends AbtractEntity{
     @Column(name = "catagory_id")
     private Long catagory_id;
 
-    @Column(name = "product_name", columnDefinition = "nvarchar(50)", unique = true)
+    @Column(name = "product_name", columnDefinition = "varchar(50)", unique = true)
     private String productName;
 
-    @Column(name="image", columnDefinition = "nvarchar(255)")
+    @Column(name="image", columnDefinition = "varchar(255)")
     private String image;
 
     @Column(name="input_price", columnDefinition = "float")

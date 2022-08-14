@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "user")
-public class UserEntity extends AbtractEntity{
+public class UserEntity extends AbtractEntity {
 
     @NotBlank
     @Column(name = "Full_name", columnDefinition = "nvarchar(50)")
@@ -21,25 +21,25 @@ public class UserEntity extends AbtractEntity{
 
     @Email(message = "Email is not validate")
     @NotNull
-    @Column(name = "Email", columnDefinition = "nvarchar(250)", unique = true)
+    @Column(name = "Email", columnDefinition = "varchar(250)", unique = true)
     private String email;
 
     @NotBlank
     @NotNull
-    @Column(name = "Username", columnDefinition = "nvarchar(50)", unique = true)
+    @Column(name = "Username", columnDefinition = "varchar(50)", unique = true)
     private String username;
 
     @NotBlank
-    @Column(name = "Password", columnDefinition = "nvarchar(255)")
+    @Column(name = "Password", columnDefinition = "varchar(255)")
     private String password;
 
-    @Column(name = "Adress", columnDefinition = "nvarchar(50)", unique = true)
+    @Column(name = "Adress", columnDefinition = "varchar(50)", unique = true)
     private String adress;
 
-    @Column(name = "Phone", columnDefinition = "nvarchar(50)", unique = true)
+    @Column(name = "Phone", columnDefinition = "varchar(50)", unique = true)
     private String phone;
 
-    @Column(name = "Serect_key", columnDefinition = "nvarchar(50)", unique = true)
+    @Column(name = "Serect_key", columnDefinition = "varchar(50)", unique = true)
     private String serectKey;
 
     @Column(name = "Active_OTP", columnDefinition = "boolean default 0")
@@ -48,25 +48,14 @@ public class UserEntity extends AbtractEntity{
     @Column(name = "Type_acount", columnDefinition = "int default 1")
     private int typeAcount;
 
-    @Column(name = "Avatar", columnDefinition = "nvarchar(50)")
+    @Column(name = "Avatar", columnDefinition = "varchar(50)")
     private String avatar;
 
-    @Column(name = "Status_acount", columnDefinition = "nvarchar(50)")
+    @Column(name = "Status_acount", columnDefinition = "varchar(50)")
     private String statusAcount;
 
     @Column(name = "Birthday", columnDefinition = "DATE")
     private String birthday;
-
-    @Column(name="permissions_id", columnDefinition = "nvarchar(50)")
-    private String permissions_id;
-
-    public String getPermissions_id() {
-        return permissions_id;
-    }
-
-    public void setPermissions_id(String permissions_id) {
-        this.permissions_id = permissions_id;
-    }
 
     public String getBirthday() {
         return birthday;

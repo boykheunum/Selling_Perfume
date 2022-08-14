@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "billdetail")
 public class BillDetailEntity extends AbtractEntity {
-    @Column(name = "product_name", columnDefinition = "nvarchar(50)")
+    @Column(name = "product_name", columnDefinition = "varchar(50)")
     private String productName;
 
     @Column(name = "quantity", columnDefinition = "int")

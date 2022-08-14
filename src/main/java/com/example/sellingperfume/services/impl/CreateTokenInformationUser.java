@@ -2,18 +2,14 @@ package com.example.sellingperfume.services.impl;
 
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
+import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.AlgorithmParameters;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 
 @Service
@@ -52,20 +48,24 @@ public class CreateTokenInformationUser {
         return base64Encode(iv) + ":" + base64Encode(cryptoText);
     }
 
-    public static String createTokenValue(String username, String systemFunction, String permissons) throws Exception {
-        String value = TITLE + DELIMITERSCHARACTER + username + DELIMITERSCHARACTER + systemFunction + DELIMITERSCHARACTER + permissons;
+    public static String createTokenValue(String username, String userAuthority, String isLogin) throws Exception {
+        String value = TITLE + DELIMITERSCHARACTER + username + DELIMITERSCHARACTER + userAuthority + DELIMITERSCHARACTER + isLogin;
         value = encryptAD(value, getKeyEncrypt("tokenKey"));
         return value;//return base64
     }
 
-    public static String decrypt(String encryptedPassword, SecretKeySpec key)
-            throws GeneralSecurityException, IOException {
+    public static String decrypt(String encryptedPassword, SecretKeySpec key) {
         String iv = encryptedPassword.split(":")[0];
         String property = encryptedPassword.split(":")[1];
-        Cipher pbeCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        pbeCipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(
-                base64Decode(iv)));
-        return new String(pbeCipher.doFinal(base64Decode(property)), "UTF-8");
+        Cipher pbeCipher = null;
+        try {
+            pbeCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            pbeCipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(base64Decode(iv)));
+            return new String(pbeCipher.doFinal(base64Decode(property)), "UTF-8");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     public String decryptTokenUser(String userToken) throws GeneralSecurityException, IOException {

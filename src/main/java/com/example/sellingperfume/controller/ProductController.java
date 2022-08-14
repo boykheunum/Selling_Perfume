@@ -6,6 +6,7 @@ import com.example.sellingperfume.services.impl.CategoryServicesImpl;
 import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -124,7 +126,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "deleteProduct")
-    private String deleteProduct(@Param("id") Long id, HttpSession session) {
+    private ModelAndView deleteProduct(@Param("id") Long id, HttpSession session, Model model) {
         if (session.getAttribute("TokenInfoUser") != null) {
             productServicesImpl.deleteProduct(id);
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();

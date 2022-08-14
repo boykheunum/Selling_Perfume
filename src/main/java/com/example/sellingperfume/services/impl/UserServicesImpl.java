@@ -112,8 +112,8 @@ public class UserServicesImpl implements IUserServices {
     }
 
     @Override
-    public Optional<UserEntity> finUserById(Long id) {
-        return iUserResposity.findById(id);
+    public UserEntity finUserById(Long id) {
+        return iUserResposity.findById(id).get();
     }
 
     @Override
