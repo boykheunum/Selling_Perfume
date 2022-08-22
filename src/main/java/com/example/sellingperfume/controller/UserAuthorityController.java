@@ -1,7 +1,6 @@
 package com.example.sellingperfume.controller;
 
 import com.example.sellingperfume.entity.UserAuthorityEntity;
-import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.UserAthorityServicesImpl;
 import com.example.sellingperfume.services.impl.UserServicesImpl;
 
@@ -23,10 +22,7 @@ import java.time.LocalDateTime;
 public class UserAuthorityController {
     @Autowired
     private UserAthorityServicesImpl userAthorityServicesImpl;
-    @Autowired
-    private UserServicesImpl userServicesImpl;
-    @Autowired
-    private CreateTokenInformationUser createTokenInformationUser;
+
 
     private static Logger logger = LoggerFactory.getLogger(UserAuthorityController.class);
 

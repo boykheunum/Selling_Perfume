@@ -41,4 +41,9 @@ public class AuthorityServicesImpl implements AuthorityServices {
         listAuthority = authorityResposity.findAll();
         return listAuthority;
     }
+
+    @Override
+    public AuthorityEntity getAthorityByName(String nameAuthority) {
+        return authorityResposity.findByAuthorityName(nameAuthority);
+    }
 }

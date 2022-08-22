@@ -2,7 +2,6 @@ package com.example.sellingperfume.controller;
 
 import com.example.sellingperfume.entity.ProductEntity;
 import com.example.sellingperfume.services.impl.CategoryServicesImpl;
-import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
 import org.slf4j.Logger;
@@ -21,15 +20,8 @@ import java.util.*;
 
 @RestController
 public class CartController {
-    @Value("${upload.part}")
-    private String upload;
     @Autowired
     CategoryServicesImpl categoryServicesImpl;
-    @Autowired
-    private CreateTokenInformationUser createTokenInformationUser;
-
-    @Autowired
-    private MediaServicesImpl mediaServicesImpl;
     @Autowired
     private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(AdminController.class);

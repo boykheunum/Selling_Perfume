@@ -1,19 +1,20 @@
-package com.example.sellingperfume.services.impl;
+package com.example.sellingperfume.Common;
 
-import org.springframework.stereotype.Service;
-
-import javax.crypto.*;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.*;
+import java.security.AlgorithmParameters;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-@Service
-public class CreateTokenInformationUser {
+public class TokenCommon {
     public static final String TITLE = "1234qwer";
     public static final String DELIMITERSCHARACTER = ",";
 

@@ -14,4 +14,6 @@ public interface AuthorityServices {
     public AuthorityEntity getAuthorityById(Long id, AuthorityEntity Authority);
 
     public List<AuthorityEntity>getAllAuthority(List<AuthorityEntity>listAuthority);
+
+    public AuthorityEntity getAthorityByName(String nameAuthority);
 }

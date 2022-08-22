@@ -1,9 +1,9 @@
 package com.example.sellingperfume.controller;
 
+import com.example.sellingperfume.Common.TokenCommon;
 import com.example.sellingperfume.entity.CategoryEntity;
 import com.example.sellingperfume.entity.ProductEntity;
 import com.example.sellingperfume.services.impl.CategoryServicesImpl;
-import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
 
@@ -31,9 +31,8 @@ public class ProductController {
     private String upload;
     @Autowired
     CategoryServicesImpl categoryServicesImpl;
-    @Autowired
 
-    private CreateTokenInformationUser createTokenInformationUser;
+    private TokenCommon tokenCommon;
 
     @Autowired
 
@@ -57,7 +56,8 @@ public class ProductController {
     private String createProduct(@ModelAttribute ProductEntity productEntity, @RequestParam("images") MultipartFile multipartFile, @RequestParam("productName") String name, HttpSession session) throws GeneralSecurityException, IOException {
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
-            String splitToken = createTokenInformationUser.decryptTokenUser(tokenInforUser);
+            tokenCommon = new TokenCommon();
+            String splitToken = tokenCommon.decryptTokenUser(tokenInforUser);
             String PathUpload = upload + "/ProductAvatar";
             mediaServicesImpl.uploadFile(PathUpload, multipartFile);
             productEntity.setCreateAt(LocalDateTime.now());
@@ -102,7 +102,8 @@ public class ProductController {
             Optional<ProductEntity> oProductEntity = productServicesImpl.findProductByID(id);
             ProductEntity productEntity = oProductEntity.get();
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
-            String splitToken = createTokenInformationUser.decryptTokenUser(tokenInforUser);
+            tokenCommon = new TokenCommon();
+            String splitToken = tokenCommon.decryptTokenUser(tokenInforUser);
             String PathUpload = upload + "/ProductAvatar";
             mediaServicesImpl.uploadFile(PathUpload, multipartFile);
             productEntity.setUpdateAt(LocalDateTime.now());

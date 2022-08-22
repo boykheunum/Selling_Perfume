@@ -1,8 +1,8 @@
 package com.example.sellingperfume.controller;
 
+import com.example.sellingperfume.Common.TokenCommon;
 import com.example.sellingperfume.entity.CategoryEntity;
 import com.example.sellingperfume.services.impl.CategoryServicesImpl;
-import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
 
@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,16 +27,11 @@ import java.util.Optional;
 @RequestMapping("/admin/")
 public class CategoryController {
     private static Logger logger = LoggerFactory.getLogger(CategoryController.class);
-    @Value("${upload.part}")
-    private String upload;
+
     @Autowired
     CategoryServicesImpl categoryServicesImpl;
-    @Autowired
-    private CreateTokenInformationUser createTokenInformationUser;
-    @Autowired
-    private MediaServicesImpl mediaServicesImpl;
-    @Autowired
-    private ProductServicesImpl productServicesImpl;
+    private TokenCommon tokenCommon;
+
 
     @GetMapping(path = "addCategory")
     private ModelAndView addTypeProduct() {
@@ -50,7 +44,7 @@ public class CategoryController {
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
             logger.info("tokken: " + tokenInforUser);
-            String splitToken = createTokenInformationUser.decryptTokenUser(tokenInforUser);
+            String splitToken = tokenCommon.decryptTokenUser(tokenInforUser);
             logger.info(splitToken);
             categoryEntity.setCreateAt(LocalDateTime.now());
             categoryEntity.setCreateBy(splitToken.split(",")[1]);
@@ -72,7 +66,7 @@ public class CategoryController {
         logger.info(String.valueOf(id));
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = session.getAttribute("TokenInfoUser").toString();
-            String splitToken = createTokenInformationUser.decryptTokenUser(tokenInforUser);
+            String splitToken = tokenCommon.decryptTokenUser(tokenInforUser);
             Optional<CategoryEntity> oCategoryEntity = categoryServicesImpl.searchCategoryById(id);
             CategoryEntity categoryEntity = oCategoryEntity.get();
             model.addAttribute("categoryEntity", categoryEntity);

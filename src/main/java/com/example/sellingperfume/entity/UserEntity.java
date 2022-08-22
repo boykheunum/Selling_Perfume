@@ -16,30 +16,28 @@ import java.util.Date;
 public class UserEntity extends AbtractEntity {
 
     @NotBlank
-    @Column(name = "Full_name", columnDefinition = "nvarchar(50)")
+    @Column(name = "Full_name", columnDefinition = "varchar(50)")
     private String fullName;
 
     @Email(message = "Email is not validate")
-    @NotNull
     @Column(name = "Email", columnDefinition = "varchar(250)", unique = true)
     private String email;
 
     @NotBlank
-    @NotNull
-    @Column(name = "Username", columnDefinition = "varchar(50)", unique = true)
+    @Column(name = "Username", columnDefinition = "varchar(50)",unique = true)
     private String username;
 
     @NotBlank
     @Column(name = "Password", columnDefinition = "varchar(255)")
     private String password;
 
-    @Column(name = "Adress", columnDefinition = "varchar(50)", unique = true)
+    @Column(name = "Adress", columnDefinition = "varchar(50)")
     private String adress;
 
-    @Column(name = "Phone", columnDefinition = "varchar(50)", unique = true)
+    @Column(name = "Phone", columnDefinition = "varchar(50)",unique = true)
     private String phone;
 
-    @Column(name = "Serect_key", columnDefinition = "varchar(50)", unique = true)
+    @Column(name = "Serect_key", columnDefinition = "varchar(50)")
     private String serectKey;
 
     @Column(name = "Active_OTP", columnDefinition = "boolean default 0")
@@ -56,6 +54,17 @@ public class UserEntity extends AbtractEntity {
 
     @Column(name = "Birthday", columnDefinition = "DATE")
     private String birthday;
+
+    @Column(name = "role", columnDefinition = "varchar(50) default 'USER_ROLE'")
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getBirthday() {
         return birthday;

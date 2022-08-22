@@ -1,12 +1,12 @@
 package com.example.sellingperfume.controller;
 
+import com.example.sellingperfume.Common.TokenCommon;
 import com.example.sellingperfume.entity.BillDetailEntity;
 import com.example.sellingperfume.entity.BillEntity;
 import com.example.sellingperfume.entity.ProductEntity;
 
 import com.example.sellingperfume.services.impl.BillDetailServicesImpl;
 import com.example.sellingperfume.services.impl.BillServicesImpl;
-import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
 
 import org.slf4j.Logger;
@@ -35,8 +35,7 @@ public class BillController {
     private BillDetailServicesImpl billDeatilServicesimpl;
     @Autowired
     private BillServicesImpl billServicesImpl;
-    @Autowired
-    private CreateTokenInformationUser createTokenInformationUser;
+    private TokenCommon tokenCommon;
     @Autowired
     private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(BillController.class);
@@ -46,7 +45,7 @@ public class BillController {
         float grandTotal = 0;
         if (session.getAttribute("TokenInfoUser") != null) {
             String tokenInforUser = (String) session.getAttribute("TokenInfoUser");
-            String splitToken = createTokenInformationUser.decryptTokenUser(tokenInforUser);
+            String splitToken = tokenCommon.decryptTokenUser(tokenInforUser);
             if (session.getAttribute("CartSession") != null) {
                 Map<String, Integer> Cart = (Map<String, Integer>) session.getAttribute("CartSession");
                 if (!Cart.isEmpty()) {

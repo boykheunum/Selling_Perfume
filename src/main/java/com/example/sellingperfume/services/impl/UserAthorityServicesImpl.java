@@ -1,6 +1,8 @@
 package com.example.sellingperfume.services.impl;
 
+import com.example.sellingperfume.entity.AuthorityEntity;
 import com.example.sellingperfume.entity.UserAuthorityEntity;
+import com.example.sellingperfume.entity.UserEntity;
 import com.example.sellingperfume.resposity.UserAuthorityResposity;
 import com.example.sellingperfume.services.UserAuthorityServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ public class UserAthorityServicesImpl implements UserAuthorityServices {
     }
 
     @Override
-    public StringBuilder checkAuthority(UserAuthorityEntity userAuthorityEntity) {
+    public StringBuilder setAuthorityIntoken(UserAuthorityEntity userAuthorityEntity) {
         StringBuilder strBuilder = new StringBuilder("00000");
         if(!userAuthorityEntity.getViewAuthority().isEmpty() && userAuthorityEntity.getViewAuthority().equals("1")){
             strBuilder.setCharAt(0,'1');
@@ -44,5 +46,13 @@ public class UserAthorityServicesImpl implements UserAuthorityServices {
             strBuilder.setCharAt(4,'1');
         }
         return strBuilder;
+    }
+
+    @Override
+    public boolean checkUserAuthority(UserEntity userEntity, AuthorityEntity authorityEntity) {
+        if(userAuthorityResposity.checkUserAuth(userEntity.getId(), authorityEntity.getId()) != null){
+            return true;
+        }
+        return false;
     }
 }

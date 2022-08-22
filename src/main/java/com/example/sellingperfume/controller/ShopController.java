@@ -1,8 +1,8 @@
 package com.example.sellingperfume.controller;
 
+import com.example.sellingperfume.Common.TokenCommon;
 import com.example.sellingperfume.entity.ProductEntity;
 import com.example.sellingperfume.services.impl.CategoryServicesImpl;
-import com.example.sellingperfume.services.impl.CreateTokenInformationUser;
 import com.example.sellingperfume.services.impl.MediaServicesImpl;
 import com.example.sellingperfume.services.impl.ProductServicesImpl;
 import org.joda.time.DateTimeZone;
@@ -23,14 +23,6 @@ import java.util.List;
 
 @RestController
 public class ShopController {
-    @Value("${upload.part}")
-    private String upload;
-    @Autowired
-    private CategoryServicesImpl categoryServicesImpl;
-    @Autowired
-    private CreateTokenInformationUser createTokenInformationUser;
-    @Autowired
-    private MediaServicesImpl mediaServicesImpl;
     @Autowired
     private ProductServicesImpl productServicesImpl;
     private static Logger logger = LoggerFactory.getLogger(ShopController.class);
@@ -39,7 +31,6 @@ public class ShopController {
     private ModelAndView HomePage(Model model) {
 
         List<ProductEntity> lProductEntity = productServicesImpl.listProducts();
-        logger.info(lProductEntity.get(0).getProductName());
         model.addAttribute("lProductEntity", lProductEntity);
         logger.info(LocalDateTime.now().toString());
         LocalDateTime date = LocalDateTime.now();
